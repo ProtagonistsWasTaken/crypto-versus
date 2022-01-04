@@ -362,4 +362,6 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 ## Community
 
-Here is the [Code of Conduct](./CODE_OF_CONDUCT.md)
+Contact me at ThePywon@hotmail.com or in discord to Pywon#3170
+
+Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this project!
