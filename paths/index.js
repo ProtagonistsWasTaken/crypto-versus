@@ -1,8 +1,9 @@
-// basically precompiled headers but javascript. import this to get all routes
+// basically precompiled headers but javascript. import this to get import all routes
 module.exports = [
   require("./main.js"), 
-  require("./signup.js"), 
-  require("./login.js"), 
+  require("./account/signup.js"), 
+  require("./account/login.js"), 
+  require("./account/delete.js"),
   require("./dostuff.js"),
-  require("./refresh.js")
+  require("./token/refresh.js")
 ];
