@@ -1,6 +1,7 @@
+// this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../database/schemes.js");
-const { Token, Tokens } = require("../miscellaneous/token_handler.js");
+const { Salt, User } = require("../../database/schemes.js");
+const { Token, Tokens } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {
   name:"login",
@@ -26,9 +27,9 @@ module.exports = {
         res.end(`${data.username} doesn't exists.`);
       }
       else if(user.password != password) {
-        res.setHeader("status", "Login unsuccessfull");
+        res.setHeader("status", "Login unsuccessful.");
         res.statusCode = 403;
-        res.end("Invalid password");
+        res.end("Invalid password.");
       }
       else {
         // Invalidate previous tokens (if any)

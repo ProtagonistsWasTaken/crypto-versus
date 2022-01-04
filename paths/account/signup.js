@@ -1,6 +1,7 @@
+// this route handles all /signup requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../database/schemes.js");
-const { Token } = require("../miscellaneous/token_handler.js");
+const { Salt, User } = require("../../database/schemes.js");
+const { Token } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {
   name:"signup",
@@ -43,7 +44,7 @@ module.exports = {
         if(data.username.length < 1 || data.username.length > 30 || data.password.length < 1 || data.password.length > 30) {
           res.setHeader("status", "Invalid length");
           res.statusCode = 400;
-          res.end("Username and password must have a length of 1 to 20 characters.");
+          res.end("Username and password must have a length of 1 to 30 characters.");
           return;
         }
 
