@@ -68,18 +68,29 @@ var lockedArray;
     var find = options => {
       var result = [];
       let p = Object.getOwnPropertyNames(options);
-      for(var i = 0; i < this.value.length; i++)
-      {
-        var 
+      for(var i = 0; i < this.value.length; i++) {
+        var valid = true;
         for(let _i = 0; _i < p.length; _i++)
-          if(this.value[i][p[_i]] != options[p[_i]])
+          if(this.value[i][p[_i]] != options[p[_i]]) {
+            valid = false;
             break;
-        result.push(this.value[i])
+          }
+        if(valid) result.push(this.value[i]);
       }
+      return result;
     }
     Object.defineProperty(this, "find", {
       enumerable:true,
       get:()=>{return find}
+    });
+
+    var findOne = options => {
+      let filteredResults = this.find(options);
+      return filteredResults.length > 0 ? filteredResults[0] : null
+    }
+    Object.defineProperty(this, "findOne", {
+      enumerable:true,
+      get:()=>{return findOne}
     });
   }
 })()
