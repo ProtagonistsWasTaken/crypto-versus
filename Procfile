@@ -1,1 +1,1 @@
-web: nvm install 16 && npm run start
+web: sh run.sh

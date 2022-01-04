@@ -1,0 +1,26 @@
+{
+  "name": "cryptoversus",
+  "version": "1.0.0",
+  "description": "## A Multiplayer Versus Hacking Simulation",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "mongoose": "^6.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProtagonistsWasTaken/crypto_versus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProtagonistsWasTaken/crypto_versus/issues"
+  },
+  "homepage": "https://github.com/ProtagonistsWasTaken/crypto_versus#readme"
+}
