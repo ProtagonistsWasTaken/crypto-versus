@@ -17,7 +17,7 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 
 
-## How to yes?
+## How to use?
 
 For now, the project is hosted (sometimes) an a temporary url hosted by [Replit](https://replit.com/)  
 If the resulting status code is 502, the project may not be running.
