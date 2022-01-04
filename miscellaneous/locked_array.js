@@ -64,6 +64,23 @@ var lockedArray;
       enumerable:true,
       get:()=>{return element=>{return array.indexOf(element) >= 0}}
     });
+
+    var find = options => {
+      var result = [];
+      let p = Object.getOwnPropertyNames(options);
+      for(var i = 0; i < this.value.length; i++)
+      {
+        var 
+        for(let _i = 0; _i < p.length; _i++)
+          if(this.value[i][p[_i]] != options[p[_i]])
+            break;
+        result.push(this.value[i])
+      }
+    }
+    Object.defineProperty(this, "find", {
+      enumerable:true,
+      get:()=>{return find}
+    });
   }
 })()
 const LockedArray = lockedArray;
