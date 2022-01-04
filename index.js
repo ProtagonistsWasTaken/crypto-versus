@@ -3,6 +3,13 @@
   TRUSTWORTY HELPER AND COMMENTER: addikted#6615
 */
 
+try {
+  // import dotenv (dev dependency)
+  require("dotenv").config(); // set your environment variables into a file called .env more info in README.md
+} catch(e) {
+  console.log("dotenv wasnt loaded.")
+}
+
 const http = require("http"); // require http module
 
 // require all the routes and append them to a list named "paths"

@@ -1,4 +1,4 @@
-const { Tokens } = require("../miscellaneous/token_handler.js");
+const { Tokens } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {
   name:"refresh",

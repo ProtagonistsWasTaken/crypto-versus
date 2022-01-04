@@ -11,7 +11,7 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 * [Possible ouputs for all endpoints](#possible-outputs-any-endpoint)
 * [/signup](#signup)
 * [/login](#login)
-* [/refresh](#refresh)
+* [/refresh-token](#refresh-token)
 * [/dostuff](#dostuff)
 * [Community](#community)
 
@@ -21,7 +21,8 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 For now, the project is hosted (sometimes) an a temporary url hosted by [Heroku](https://dashboard.heroku.com/apps) and [Replit](https://replit.com/) for testing and editing
 
-Current domain: <https://beta-cry-vs.herokuapp.com/>
+Main branch domain: <https://cry-vs.herokuapp.com/>
+Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
 
 
 
@@ -61,7 +62,7 @@ This response is the result of a request made using a method invalid with the cu
 
 
 
-## [/](https://crypto-versus.pywon.repl.co/)
+## [/](https://beta-cry-vs.herokuapp.com/)
 
 ### Method
 
@@ -83,7 +84,7 @@ This response is the result of making a request on the main route
 
 
 
-## [/signup](https://crypto-versus.pywon.repl.co/signup)
+## [/signup](https://beta-cry-vs.herokuapp.com/signup)
 
 ### Method
 
@@ -183,7 +184,7 @@ This response is the result of a request done on an already registered account u
 
 
 
-## [/login](https://crypto-versus.pywon.repl.co/login)
+## [/login](https://beta-cry-vs.herokuapp.com/login)
 
 ### Method
 
@@ -262,7 +263,33 @@ This response is the result of a request done on an account with a password that
 
 
 
-## [/refresh](https://crypto-versus.pywon.repl.co/refresh)
+## [/delete-account](https://beta-cry-vs.herokuapp.com/delete-account)
+
+### Method
+
+
+'POST'
+
+### Input
+
+    {"token":[Token]}
+
+\[Token] is expected to be a string value  
+Any valid connection token can be used
+
+### Outputs
+
+#### Success (200)
+
+This response is the result of a successful account deletion
+
+##### Body
+
+    
+
+
+
+## [/refresh-token](https://beta-cry-vs.herokuapp.com/refresh-token)
 
 ### Method
 
@@ -313,7 +340,7 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 
 
-## [/dostuff](https://crypto-versus.pywon.repl.co/dostuff)
+## [/dostuff](https://beta-cry-vs.herokuapp.com/dostuff)
 
 ### Method
 
