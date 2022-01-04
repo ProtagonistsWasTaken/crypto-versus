@@ -19,10 +19,9 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 ## How to use?
 
-For now, the project is hosted (sometimes) an a temporary url hosted by [Replit](https://replit.com/)  
-If the resulting status code is 502, the project may not be running.
+For now, the project is hosted (sometimes) an a temporary url hosted by [Heroku](https://dashboard.heroku.com/apps) and [Replit](https://replit.com/) for testing and editing
 
-Current domain: <https://crypto-versus.pywon.repl.co/>
+Current domain: <https://beta-cry-vs.herokuapp.com/>
 
 
 
