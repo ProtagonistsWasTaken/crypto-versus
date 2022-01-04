@@ -1,5 +1,5 @@
 // this route handles all /delete requests
-const { User } = require("../../database/schemes.js");
+const { User } = require("../../database/schemas.js");
 const { Tokens } = require("../../miscellaneous/token_handler.js")
 
 module.exports = {
@@ -19,17 +19,16 @@ module.exports = {
       res.end("Token is invalid.");
     }
     else
-      User.deleteOne({username: token.user}, err=>{
-        if(err !== null) {
-          res.setHeader("status", "Database error.");
-          res.statusCode = 500;
-          res.end(`Could not delete ${token.user}`);
-        }
-        else {
-          token.invalidate();
-          res.end(`${token.user} deleted successfully!`);
-        }
-      });
+      var err = await User.deleteOne({username: token.user});
+      if(err !== null) {
+        res.setHeader("status", "Database error.");
+        res.statusCode = 500;
+        res.end(`Could not delete ${token.user}`);
+      }
+      else {
+        token.invalidate();
+        res.end(`${token.user} deleted successfully!`);
+      }
   },
   method:'POST'
 }

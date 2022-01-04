@@ -1,6 +1,6 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../database/schemes.js");
+const { Salt, User } = require("../../database/schemas.js");
 const { Token, Tokens } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {

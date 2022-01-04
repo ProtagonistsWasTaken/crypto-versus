@@ -15,7 +15,7 @@ const http = require("http"); // require http module
 // require all the routes and append them to a list named "paths"
 const paths = require("./paths");
 
-const {setup} = require("./database/schemes.js");
+const {setup} = require("./database/schemas.js");
 setup();
 
 // when a request is made by a user
