@@ -360,3 +360,6 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
     Token is invalid.
 
+## Community
+
+Here is the [Code of Conduct](./CODE_OF_CONDUCT.md)
