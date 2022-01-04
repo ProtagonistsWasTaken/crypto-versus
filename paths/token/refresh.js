@@ -1,9 +1,8 @@
 const { Tokens } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {
-  name:"refresh",
-  run:async function(req, res, data)
-  {
+  name:"refresh-token",
+  run:async function(req, res, data) {
     var filteredTokens = Tokens.value.filter(token => token.value == data.token);
     if(!data.token) {
       res.setHeader("status", "Missing token for refresh.");
