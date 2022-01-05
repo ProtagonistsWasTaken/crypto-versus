@@ -1,21 +1,11 @@
 const { Tokens } = require("../../miscellaneous/token_handler.js");
+const { getToken } = require("../../miscellaneous/helper.js");
 
 module.exports = {
-  name:"refresh-token",
+  urls:["refresh-token"],
   run:async function(req, res, data) {
-    var filteredTokens = Tokens.value.filter(token => token.value == data.token);
-    if(!data.token) {
-      res.setHeader("status", "Missing token for refresh.");
-      res.statusCode = 400;
-      res.end("Token is required.");
-    }
-    else if(filteredTokens.length === 0) {
-      res.setHeader("status", "Invalid token for refresh.");
-      res.statusCode = 403;
-      res.end("Token is invalid.");
-    }
-    else
-      res.end(filteredTokens[0].refresh().value);
+    var token = getToken(res, data.token);
+    if(token) res.end(token.refresh().value);
   },
   method:'POST'
 }

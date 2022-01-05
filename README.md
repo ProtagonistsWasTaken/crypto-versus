@@ -4,24 +4,27 @@
 
 Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/1812820/Bitburner/)
 
+---
+
 
 
 ## Table of content
 
 * [Possible ouputs for all endpoints](#possible-outputs-any-endpoint)
-* [/signup](#signup)
-* [/login](#login)
-* [/refresh-token](#refresh-token)
-* [/dostuff](#dostuff)
+* [routes](#routes)
+    * [/signup](#signup)
+    * [/login](#login)
+    * [/refresh-token](#refresh-token)
+    * [/dostuff](#dostuff)
 * [Community](#community)
 
 
 
 ## How to use?
 
-For now, the project is hosted (sometimes) an a temporary url hosted by [Heroku](https://dashboard.heroku.com/apps) and [Replit](https://replit.com/) for testing and editing
+This projetc is hosted on [Heroku](https://heroku.com).
 
-Main branch domain: <https://cry-vs.herokuapp.com/>
+Main branch domain: <https://cry-vs.herokuapp.com/>  
 Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
 
 
@@ -61,8 +64,11 @@ This response is the result of a request made using a method invalid with the cu
 \[Method] is the request method used
 
 
+# Routes
+List of all routes and usage guides. this goes for a while so bear with us.  * deep breath *
 
-## [/](https://beta-cry-vs.herokuapp.com/)
+
+## [/index](https://cry-vs.herokuapp.com/)
 
 ### Method
 
@@ -83,8 +89,10 @@ This response is the result of making a request on the main route
     There's nothing here!
 
 
+---
+## Routes
 
-## [/signup](https://beta-cry-vs.herokuapp.com/signup)
+## [/signup](https://cry-vs.herokuapp.com/signup)
 
 ### Method
 
@@ -99,7 +107,7 @@ Legal characters that can be used for thoses parameters are:
 
 ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
 
-(Capitals do not matter)
+(Case insensitive)
 
 ### Outputs
 
@@ -123,7 +131,7 @@ This response is the result of a missing parameter in the input json
 ##### Body
 
     username is required.
-    
+
 or
 
     password is required.
@@ -184,7 +192,7 @@ This response is the result of a request done on an already registered account u
 
 
 
-## [/login](https://beta-cry-vs.herokuapp.com/login)
+## [/login](https://cry-vs.herokuapp.com/login)
 
 ### Method
 
@@ -218,7 +226,7 @@ This response is the result of a missing parameter in the input json
 ##### Body
 
     username is required.
-    
+
 or
 
     password is required.
@@ -263,10 +271,81 @@ This response is the result of a request done on an account with a password that
 
 
 
-## [/delete-account](https://beta-cry-vs.herokuapp.com/delete-account)
+## [/edit-account](https://cry-vs.herokuapp.com/edit-account)
 
 ### Method
 
+'POST'
+
+### Input
+
+    {"token":[Token]}
+
+\[Token] is expected to be a string value  
+Any valid connection token can be used
+
+Optionnal additional info
+
+    {"username":[Username],"password":[Password]}
+
+\[Username] and \[Password] are expected to be string values  
+Legal characters that can be used for thoses parameters are:
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
+
+(Capitals do not matter)
+
+### Outputs
+
+#### Success (200)
+
+This response is the result of a successful request
+
+###### Body
+
+    Account updated!
+
+---
+
+#### Missing token (400)
+
+This response is the result of a missing token parameter in the input json
+
+##### Body
+
+    Token is required.
+
+---
+
+#### Invalid token (403)
+
+This response is the result of requesting to the endpoint with an invalid/expired token
+
+##### Body
+
+    Token is invalid.
+
+---
+
+#### Illegal character (400)
+
+This response is the result of an illegal character detected in either the username or password
+
+##### Body
+
+    Username contains the following illegal character: "[Char]"
+
+or
+
+    Password contains the following illegal character: "[Char]"
+
+\[Char] is the character that posed a problem
+
+
+
+## [/delete-account](https://cry-vs.herokuapp.com/delete-account)
+
+### Method
 
 'POST'
 
@@ -285,11 +364,40 @@ This response is the result of a successful account deletion
 
 ##### Body
 
-    
+    [Username] deleted successfully!
+
+\[Username] is the token's corresponding account username
+
+---
+
+#### Missing token (400)
+
+This response is the result of a missing token parameter in the input json
+
+##### Body
+
+    Token is required.
+
+---
+
+#### Invalid token (403)
+
+This response is the result of requesting to the endpoint with an invalid/expired token
+
+##### Body
+
+    Token is invalid.
+
+---
+
+#### Database error
+
+This response is the result of a valid request that somehow created a database error  
+This should never happen, if it does, [tell us](#community)
 
 
 
-## [/refresh-token](https://beta-cry-vs.herokuapp.com/refresh-token)
+## [/refresh-token](https://cry-vs.herokuapp.com/refresh-token)
 
 ### Method
 
@@ -340,7 +448,7 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 
 
-## [/dostuff](https://beta-cry-vs.herokuapp.com/dostuff)
+## [/dostuff](https://cry-vs.herokuapp.com/dostuff)
 
 ### Method
 
@@ -388,6 +496,9 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 ## Community
 
-Contact me at ThePywon@hotmail.com or in discord to Pywon#3170
+Found an issue? got any questions? you can contact these contributors
 
-Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this project!
+- [Pywon](https://github.com/ThePywon)
+- [AW1534](https://github.com/AW1534)
+
+Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this community!
