@@ -70,7 +70,7 @@ Token.prototype.toString = function toString()
 Object.defineProperty(Token, "from", {
   enumerable:true,
   get:()=>{return token=>{
-    new Token(token.user, token.value.length, token.lifetime);
+    return new Token(token.user, token.value.length, token.lifetime);
   }}
 });
 
