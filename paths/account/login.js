@@ -28,6 +28,7 @@ module.exports = {
           if(token !== null) token.invalidate();
           // Generate a token
           var newToken = new Token(data.username, 32, 600000);
+          res.setHeader("user", newToken.user);
           res.setHeader("expire", newToken.lifetime);
           res.end(newToken.value);
         }
@@ -54,6 +55,7 @@ module.exports = {
 
         // Generate a token
         var newToken = new Token(user.username, 32, 600000);
+        res.setHeader("user", newToken.user);
         res.setHeader("expire", newToken.lifetime);
         res.end(newToken.value);
       }

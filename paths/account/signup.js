@@ -21,6 +21,7 @@ module.exports = {
 
         // Generate a token
         var token = new Token(data.username, 32, 1200000);
+        res.setHeader("user", token.user);
         res.setHeader("expire", token.lifetime);
         res.end(token.value);
       }
