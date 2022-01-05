@@ -12,14 +12,14 @@ module.exports = {
 
       if((data.username && typeof data.username != "string") || (data.password && typeof data.password != "string")) {
         sendError(res, {code:417,
-          header:"Invalid data for account editing.",
+          message:"Invalid data for account editing.",
           body:`Unexpected type for ${data.username ? "username" : "password"}.\nExpected String.`
         });
         return;
       }
       else if(data.keyEnabled !== undefined && typeof data.keyEnabled != "boolean") {
         sendError(res, {code:417,
-          header:"Invalid data for account editing.",
+          message:"Invalid data for account editing.",
           body:"Unexpected type for keyEnabled.\nExpected Boolean."
         });
         return;

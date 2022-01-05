@@ -1,18 +1,21 @@
 const { Tokens } = require("./token_handler.js");
 const { Salt, User } = require("../database/schemas.js");
+const { sendError } = require("./error.js");
 
 function validateUserInfo(res, data) {
   // dont allow request if they didnt specify username and password
   if(!data.username || !data.password) {
-    res.setHeader("status", "Missing data for account creation.");
-    res.statusCode = 400;
-    res.end(`${data.username ? "Password" : "Username"} is required.`);
+    sendError(res, {code:400,
+      message:"Missing data for account creation.",
+      body:`${data.username ? "Password" : "Username"} is required.`
+    });
     return false;
   }
   else if(typeof data.username != "string" || typeof data.password != "string") {
-    res.setHeader("status", "Invalid data for account creation.");
-    res.statusCode = 417;
-    res.end(`Unexpected type for ${typeof data.username != "string" ? "username" : "password"}.\nExpected String.`);
+    sendError(res, {code:417,
+      message:"Invalid data for account creation.",
+      body:`Unexpected type for ${typeof data.username != "string" ? "username" : "password"}.\nExpected String.`
+    });
     return false;
   }
   else
@@ -21,23 +24,26 @@ function validateUserInfo(res, data) {
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'\"";
     for(let i = 0; i < data.username.length; i++)
       if(!chars.includes(data.username[i].toUpperCase())) { // dont allow char if not in list
-        res.setHeader("status", "Illegal character.");
-        res.statusCode = 400;
-        res.end(`Username contains the following illegal character: "${data.username[i]}"`);
+        sendError(res, {code:400,
+          message:"Illegal character.",
+          body:`Username contains the following illegal character: "${data.username[i]}"`
+        });
         return false;
       }
     for(let i = 0; i < data.password.length; i++)
       if(!chars.includes(data.password[i].toUpperCase())) {
-        res.setHeader("status", "Illegal character.");
-        res.statusCode = 400;
-        res.end(`Password contains the following illegal character: "${data.password[i]}"`);
+        sendError(res, {code:400,
+          message:"Illegal character.",
+          body:`Password contains the following illegal character: "${data.password[i]}"`
+        });
         return false;
       }
 
     if(data.username.length < 1 || data.username.length > 30 || data.password.length < 1 || data.password.length > 30) {
-      res.setHeader("status", "Invalid length");
-      res.statusCode = 400;
-      res.end("Username and password must have a length of 1 to 30 characters.");
+      sendError(res, {code:400,
+        message:"Invalid length",
+        body:"Username and password must have a length of 1 to 30 characters."
+      });
       return false;
     }
 

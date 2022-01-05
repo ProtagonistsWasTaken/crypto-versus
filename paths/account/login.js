@@ -15,11 +15,11 @@ module.exports = {
         var user = await User.findOne({username: data.username});
 
         if(user === null) sendError(res, {code:401,
-          header:"Account not found.",
+          message:"Account not found.",
           body:`${data.username} doesn't exists.`
         });
         else if(user.password != password) sendError(res, {code:403,
-          header:"Login unsuccessful.",
+          message:"Login unsuccessful.",
           body:"Invalid password."
         });
         else {
@@ -40,11 +40,11 @@ module.exports = {
       var user = await User.findOne({key});
       
       if(user === null) sendError(res, {code:401,
-        header:"Account not found.",
+        message:"Account not found.",
         body:`${data.username} doesn't exists.`
       });
       else if(!user.keyEnabled) sendError(res, {code:403,
-        header:"Api key disabled.",
+        message:"Api key disabled.",
         body:`${user.username} does not have key enabled.`
       });
       else {
@@ -59,7 +59,7 @@ module.exports = {
       }
     }
     else sendError(res, {code:400,
-      header:"Login unsuccessful.",
+      message:"Login unsuccessful.",
       body:"Missing login info."
     });
   },

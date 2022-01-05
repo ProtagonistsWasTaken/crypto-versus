@@ -19,7 +19,7 @@ module.exports = {
         await user.save();
       }
       else sendError(res, {code:403,
-        header:"Api key disabled.",
+        message:"Api key disabled.",
         body:`${token.user} does not have key enabled.`
       });
     }
