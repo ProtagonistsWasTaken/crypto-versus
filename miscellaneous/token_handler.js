@@ -1,6 +1,6 @@
 // this file (you guessed it) handles tokens :O
 const lockedArray = require("./locked_array.js");
-const sendError = require("./error.js");
+const { sendError } = require("./error.js");
 
 const Tokens = new lockedArray();
 const key = Tokens.key;
