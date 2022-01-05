@@ -4,7 +4,7 @@ const { Salt, User } = require("../../database/schemas.js");
 const { Token, Tokens } = require("../../miscellaneous/token_handler.js");
 
 module.exports = {
-  name:"login",
+  urls:["login","signin","sign-in"],
   run:async function(req, res, data) {
     // dont allow request if they didnt specify username and password
     if(!data.username || !data.password) {
@@ -33,12 +33,12 @@ module.exports = {
       }
       else {
         // Invalidate previous tokens (if any)
-        var filteredTokens = Tokens.value.filter(token => token.user == data.username);
-        if(filteredTokens.length > 0) filteredTokens[0].invalidate();
+        var token = Tokens.findOne({user: data.username});
+        if(token !== null) token.invalidate();
         // Generate a token
-        var token = new Token(data.username, 32, 600000);
-        res.setHeader("expire", token.lifetime);
-        res.end(token.value);
+        var newToken = new Token(data.username, 32, 600000);
+        res.setHeader("expire", newToken.lifetime);
+        res.end(newToken.value);
       }
     }
   },

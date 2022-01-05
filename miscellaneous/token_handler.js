@@ -18,6 +18,7 @@ class Token {
     }, lifetime);
   }
 
+  // this function (you guessed it) generates characters
   generate(length) {
     var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-";
     var token = [];
@@ -43,4 +44,19 @@ class Token {
 Token.prototype.toString = function toString()
 {return this.value}
 
-module.exports = {Token, Tokens}
+function Validate (data, res, token) {
+      // error if token is missing.
+    if(!data.token) {
+      res.setHeader("status", "Missing token for refresh.");
+      res.statusCode = 400;
+      res.end("Token is required.");
+    }
+    // error if token is found but not valid.
+    else if(token === null) {
+      res.setHeader("status", "Invalid token for refresh.");
+      res.statusCode = 403;
+      res.end("Token is invalid.");
+    }
+}
+
+module.exports = {Token, Tokens, Validate}

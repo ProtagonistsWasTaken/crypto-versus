@@ -5,9 +5,9 @@
 
 try {
   // import dotenv (dev dependency)
-  require("dotenv").config(); // set your environment variables into a file called .env more info in README.md
+  require("dotenv").config(); // IMPORTANT: set your environment variables into a file called .env ||  more info in README.md
 } catch(e) {
-  console.log("dotenv wasnt loaded.")
+  console.log(".env was not loaded. you can safely ignore this if your env values do not depend on it");
 }
 
 const http = require("http"); // require http module
@@ -39,15 +39,21 @@ const requestListener = function (req, res) {
       }
     }
 
-    // loop through all rotes
+    // loop through all routes
     for(let i = 0; i < paths.length; i++)
-      if(req.url == "/" + paths[i].name) {  // if user's request matches a path, run the file
+      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the file
         if(!paths[i].method || req.method == paths[i].method)
-          await paths[i].run(req, res, data);
+        try {await paths[i].run(req, res, data);break;} 
+        catch (e) {
+          console.log(e);
+          res.setHeader("status", "Internal server error.");
+          res.statusCode = 500;
+          res.end("Inernal server error. this is always a glitch. please contact contributors.");
+        }
         else {
           res.statusMessage = "Unexpected method.";
           res.statusCode = 405;
-          res.end(`path '/${paths[i].name}' should always be requested with method '${paths[i].method}'.`);
+          res.end(`path '${req.url}' should always be requested with method '${paths[i].method}'.`);
           return;
         }
       }

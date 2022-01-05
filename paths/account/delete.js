@@ -1,24 +1,12 @@
 // this route handles all /delete requests
 const { User } = require("../../database/schemas.js");
-const { Tokens } = require("../../miscellaneous/token_handler.js")
+const { getToken } = require("../../miscellaneous/helper.js");
 
 module.exports = {
-  name:"delete-account",
+  urls:["delete-account"],
   run:async function(req, res, data) {
-    var token = Tokens.findOne({value: data.token});
-    // error if token is missing.
-    if(!data.token) {
-      res.setHeader("status", "Missing token for refresh.");
-      res.statusCode = 400;
-      res.end("Token is required.");
-    }
-    // error if token is found but not valid.
-    else if(token === null) {
-      res.setHeader("status", "Invalid token for refresh.");
-      res.statusCode = 403;
-      res.end("Token is invalid.");
-    }
-    else
+    var token = getToken(res, data.token);
+    if(token) {
       var result = await User.deleteOne({username: token.user});
       if(!result.deletedCount) {
         res.setHeader("status", "Database error.");
@@ -29,6 +17,7 @@ module.exports = {
         token.invalidate();
         res.end(`${token.user} deleted successfully!`);
       }
+    }
   },
   method:'POST'
 }
