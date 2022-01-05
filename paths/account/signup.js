@@ -13,7 +13,7 @@ module.exports = {
 
       if(user === null) {
         // Create a new user
-        new User({
+        user = new User({
           username: data.username,
           password: password,
           keyEnabled: data.keyEnabled !== undefined ? data.keyEnabled : false
@@ -23,6 +23,7 @@ module.exports = {
         var token = new Token(data.username, 32, 1200000);
         res.setHeader("user", token.user);
         res.setHeader("expire", token.lifetime);
+        res.setHeader("keyEnabled", user.keyEnabled);
         res.end(token.value);
       }
       else sendError(res, {code:403,
