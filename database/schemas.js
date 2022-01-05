@@ -21,7 +21,9 @@ const User = Mongoose.model("User", new Mongoose.Schema({
   password: {
     type: String, // ensure the password is a String. this should be hashed by bcrypt
     required: [true,"password is required"] // password is required
-  }
+  },
+  keyEnabled: Boolean,
+  key: String
 }));
 
 function setup() {

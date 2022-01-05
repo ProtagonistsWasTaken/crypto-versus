@@ -6,5 +6,6 @@ module.exports = [
   require("./account/edit.js"),
   require("./account/delete.js"),
   require("./dostuff.js"),
-  require("./token/refresh.js")
+  require("./token/refresh.js"),
+  require("./account/key.js")
 ];

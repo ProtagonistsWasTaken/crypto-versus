@@ -27,6 +27,9 @@ This projetc is hosted on [Heroku](https://heroku.com).
 Main branch domain: <https://cry-vs.herokuapp.com/>  
 Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
 
+_WARNING: there may be security issues in the dev branch. continue at your own disposal_
+
+---
 
 
 ### Possible outputs (any endpoint)

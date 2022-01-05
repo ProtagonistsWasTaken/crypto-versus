@@ -1,46 +1,67 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("../../database/schemas.js");
-const { Token, Tokens } = require("../../miscellaneous/token_handler.js");
+const { Token, Tokens, validateUserInfo, sendError } = require("../../miscellaneous");
 
 module.exports = {
-  urls:["login","signin","sign-in"],
+  urls:["login","signin","sign-in", "account/login", "account/signin", "account/sign-in"],
   run:async function(req, res, data) {
-    // dont allow request if they didnt specify username and password
-    if(!data.username || !data.password) {
-      res.setHeader("status", "Missing data for login request.");
-      res.statusCode = 400;
-      res.end(`${data.username ? "password" : "username"} is required.`);
+    // Login using creditentials
+    if(data.username && data.password) {
+      if(validateUserInfo(res, data)) {
+
+        var salt = await Salt.find();
+        var password = await bcrypt.hash(data.password, salt[0].val);
+        var user = await User.findOne({username: data.username});
+
+        if(user === null) sendError(res, {code:401,
+          header:"Account not found.",
+          body:`${data.username} doesn't exists.`
+        });
+        else if(user.password != password) sendError(res, {code:403,
+          header:"Login unsuccessful.",
+          body:"Invalid password."
+        });
+        else {
+          // Invalidate previous tokens (if any)
+          var token = Tokens.findOne({user: data.username});
+          if(token !== null) token.invalidate();
+          // Generate a token
+          var newToken = new Token(data.username, 32, 600000);
+          res.setHeader("expire", newToken.lifetime);
+          res.end(newToken.value);
+        }
+      }
     }
-    else if(typeof data.username != "string" || typeof data.password != "string") {
-      res.setHeader("status", "Invalid data for login request.");
-      res.statusCode = 417;
-      res.end(`Unexpected type for ${typeof data.username != "string" ? "username" : "password"}.\nExpected String.`);
-    }
-    else {
+    // Login using api key
+    else if(data.key) {
       var salt = await Salt.find();
-      var password = await bcrypt.hash(data.password, salt[0].val);
-      var user = await User.findOne({username: data.username});
-      if(user === null) {
-        res.setHeader("status", "Account not found.");
-        res.statusCode = 404;
-        res.end(`${data.username} doesn't exists.`);
-      }
-      else if(user.password != password) {
-        res.setHeader("status", "Login unsuccessful.");
-        res.statusCode = 403;
-        res.end("Invalid password.");
-      }
+      var key = await bcrypt.hash(data.key, salt[0].val);
+      var user = await User.findOne({key});
+      
+      if(user === null) sendError(res, {code:401,
+        header:"Account not found.",
+        body:`${data.username} doesn't exists.`
+      });
+      else if(!user.keyEnabled) sendError(res, {code:403,
+        header:"Api key disabled.",
+        body:`${user.username} does not have key enabled.`
+      });
       else {
         // Invalidate previous tokens (if any)
-        var token = Tokens.findOne({user: data.username});
+        var token = Tokens.findOne({user: user.username});
         if(token !== null) token.invalidate();
+
         // Generate a token
-        var newToken = new Token(data.username, 32, 600000);
+        var newToken = new Token(user.username, 32, 600000);
         res.setHeader("expire", newToken.lifetime);
         res.end(newToken.value);
       }
     }
+    else sendError(res, {code:400,
+      header:"Login unsuccessful.",
+      body:"Missing login info."
+    });
   },
   method:'POST'
 }

@@ -1,62 +1,99 @@
 // this file (you guessed it) handles tokens :O
 const lockedArray = require("./locked_array.js");
+const sendError = require("./error.js");
 
 const Tokens = new lockedArray();
 const key = Tokens.key;
 
-class Token {
-  constructor(username, length = 32, lifetime = 300000) {
-    this.user = username;
-    this.value = this.generate(length);
-    this.lifetime = lifetime;
-    Tokens.unlock(key);
-    Tokens.add(this);
-    Tokens.lock();
+function Token(username, length = 32, lifetime = 300000) {
 
-    setTimeout(()=>{
-      this.invalidate();
-    }, lifetime);
-  }
+  Object.defineProperty(this, "user", {
+    enumerable:true,
+    get:()=>{return username}
+  });
 
-  // this function (you guessed it) generates characters
-  generate(length) {
-    var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-";
-    var token = [];
+  // this function (you guessed it) generates tokens
+  Object.defineProperty(this, "generate", {
+    enumerable:true,
+    get:()=>{return length=>{
+      var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-";
+      var token = [];
 
-    for(let i = 0; i < length; i++)
-      token.push(characters[parseInt(Math.random()*characters.length)+1]);
-    
-    return token.join('');
-  }
+      for(let i = 0; i < length; i++)
+        token.push(characters[parseInt(Math.random()*characters.length)+1]);
+      
+      return token.join('');
+    }}
+  });
 
-  invalidate() {
-    if(!Tokens.includes(this))return;
-    Tokens.unlock(key);
-    Tokens.remove(this);
-    Tokens.lock();
-  }
+  var value = this.generate(length);
+  Object.defineProperty(this, "value", {
+    enumerable:true,
+    get:()=>{return value}
+  });
 
-  refresh() {
+  Object.defineProperty(this, "lifetime", {
+    enumerable:true,
+    get:()=>{return lifetime}
+  });
+
+  Tokens.unlock(key);
+  Tokens.add(this);
+  Tokens.lock();
+
+  setTimeout(()=>{
     this.invalidate();
-    return new Token(this.user, this.length, this.lifetime);
-  }
+  }, lifetime);
+
+  Object.defineProperty(this, "invalidate", {
+    enumerable:true,
+    get:()=>{return ()=>{
+      if(!Tokens.includes(this))return;
+      Tokens.unlock(key);
+      Tokens.remove(this);
+      Tokens.lock();
+    }}
+  });
+
+  Object.defineProperty(this, "refresh", {
+    enumerable:true,
+    get:()=>{return ()=>{
+      this.invalidate();
+      return Token.from(this);
+    }}
+  });
 }
+
 Token.prototype.toString = function toString()
 {return this.value}
 
-function Validate (data, res, token) {
-      // error if token is missing.
-    if(!data.token) {
-      res.setHeader("status", "Missing token for refresh.");
-      res.statusCode = 400;
-      res.end("Token is required.");
-    }
-    // error if token is found but not valid.
-    else if(token === null) {
-      res.setHeader("status", "Invalid token for refresh.");
-      res.statusCode = 403;
-      res.end("Token is invalid.");
-    }
-}
+Object.defineProperty(Token, "from", {
+  enumerable:true,
+  get:()=>{return token=>{
+    new Token(token.user, token.value.length, token.lifetime);
+  }}
+});
 
-module.exports = {Token, Tokens, Validate}
+Object.defineProperty(Token, "fromString", {
+  enumerable:true,
+  get:()=>{return (res, tokenString)=>{
+    var token = Tokens.findOne({value: tokenString});
+    if(!tokenString) {
+      sendError(res, {code:400,
+        header:"Missing token.",
+        body:"Token is required."
+      });
+      return undefined;
+    }
+    else if(token === null) {
+      sendError(res, {code:403,
+        header:"Invalid token.",
+        body:"Token is invalid."
+      });
+      return undefined;
+    }
+    else return token;
+  }}
+});
+
+module.exports = {Token, Tokens}

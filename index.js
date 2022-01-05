@@ -39,9 +39,11 @@ const requestListener = function (req, res) {
       }
     }
 
+    console.log(`Requested '${req.url}' with method '${req.method}'\ndata: ${JSON.stringify(data)}`);
+    
     // loop through all routes
     for(let i = 0; i < paths.length; i++)
-      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the file
+      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
         if(!paths[i].method || req.method == paths[i].method)
         try {await paths[i].run(req, res, data);break;} 
         catch (e) {

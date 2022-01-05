@@ -1,4 +1,4 @@
-// I like this path - Python Won
+// I like this path - Pywon
 module.exports = {
   urls:["","index"],
   run:async function(req, res)
