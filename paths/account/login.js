@@ -57,6 +57,7 @@ module.exports = {
         var newToken = new Token(user.username, 32, 600000);
         res.setHeader("user", newToken.user);
         res.setHeader("expire", newToken.lifetime);
+        res.setHeader("keyEnabled", user.keyEnabled);
         res.end(newToken.value);
       }
     }
