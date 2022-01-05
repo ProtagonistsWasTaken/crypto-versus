@@ -285,8 +285,36 @@ This response is the result of a successful account deletion
 
 ##### Body
 
-    
+    [Username] deleted successfully!
 
+\[Username] is the token's corresponding account username
+
+---
+
+#### Missing token (400)
+
+This response is the result of a missing token parameter in the input json
+
+##### Body
+
+    Token is required.
+
+---
+
+#### Invalid token (403)
+
+This response is the result of requesting to the endpoint with an invalid/expired token
+
+##### Body
+
+    Token is invalid.
+
+---
+
+#### Database error
+
+This response is the result of a valid request that somehow created a database error  
+This should never happen, if it does, [tell us](#community)
 
 
 ## [/refresh-token](https://beta-cry-vs.herokuapp.com/refresh-token)
@@ -388,6 +416,8 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 ## Community
 
-Contact me at ThePywon@hotmail.com or in discord to Pywon#3170
+Contact [Pywon](https://github.com/ThePywon)
 
-Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this project!
+Contact [AW1534](https://github.com/AW1534)
+
+Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this community!
