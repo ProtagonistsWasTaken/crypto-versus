@@ -21,7 +21,7 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 For now, the project is hosted (sometimes) an a temporary url hosted by [Heroku](https://dashboard.heroku.com/apps) and [Replit](https://replit.com/) for testing and editing
 
-Main branch domain: <https://cry-vs.herokuapp.com/>
+Main branch domain: <https://cry-vs.herokuapp.com/>  
 Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
 
 
