@@ -1,17 +1,19 @@
 // this route handles all /delete requests
 const { User } = require("../../database/schemas.js");
-const { getToken } = require("../../miscellaneous/helper.js");
+const { Token, sendError } =  require("../../miscellaneous");
 
 module.exports = {
-  urls:["delete-account"],
+  urls:["delete-account", "account/delete"],
   run:async function(req, res, data) {
-    var token = getToken(res, data.token);
+    var token = Token.fromString(res, data.token);
+    
     if(token) {
-      var result = await User.deleteOne({username: token.user});
+      var result = await User.deleteOne({username: token.user});  // try to delete the user
       if(!result.deletedCount) {
-        res.setHeader("status", "Database error.");
-        res.statusCode = 500;
-        res.end(`Could not delete ${token.user}`);
+        sendError(res, {code:500,
+          header:"Database error.",
+          body:`Could not delete ${token.user}`
+        });
       }
       else {
         token.invalidate();

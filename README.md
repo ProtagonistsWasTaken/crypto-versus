@@ -14,7 +14,10 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 * [routes](#routes)
     * [/signup](#signup)
     * [/login](#login)
+    * [/edit-account](#edit-account)
+    * [/delete-account](#delete-account)
     * [/refresh-token](#refresh-token)
+    * [/key](#key)
     * [/dostuff](#dostuff)
 * [Community](#community)
 
@@ -27,6 +30,9 @@ This projetc is hosted on [Heroku](https://heroku.com).
 Main branch domain: <https://cry-vs.herokuapp.com/>  
 Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
 
+_WARNING: there may be security issues in the dev branch. continue at your own disposal_
+
+---
 
 
 ### Possible outputs (any endpoint)
@@ -63,12 +69,23 @@ This response is the result of a request made using a method invalid with the cu
 \[Path] is the requested endpoint  
 \[Method] is the request method used
 
+---
+
+#### Internal error (500)
+
+This response is the result of an internal server error  
+This is always a bug and if encountered, [tell us](#community)!
+
+##### Body
+
+    Internal server error
+
 
 # Routes
 List of all routes and usage guides. this goes for a while so bear with us.  * deep breath *
 
 
-## [/index](https://cry-vs.herokuapp.com/)
+## [/index](https://cry-vs.herokuapp.com/index)
 
 ### Method
 
@@ -130,11 +147,11 @@ This response is the result of a missing parameter in the input json
 
 ##### Body
 
-    username is required.
+    Username is required.
 
 or
 
-    password is required.
+    Password is required.
 
 ---
 
@@ -202,7 +219,12 @@ This response is the result of a request done on an already registered account u
 
     {"username":[Username],"password":[Password]}
 
-\[Username] and \[Password] are expected to be string values
+\[Username] and \[Password] are expected to be string values  
+Legal characters that can be used for thoses parameters are:
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
+
+(Case insensitive)
 
 ### Outputs
 
@@ -225,11 +247,7 @@ This response is the result of a missing parameter in the input json
 
 ##### Body
 
-    username is required.
-
-or
-
-    password is required.
+    Missing login info
 
 ---
 
@@ -249,7 +267,23 @@ or
 
 ---
 
-#### Not found (404)
+#### Illegal character (400)
+
+This response is the result of an illegal character detected in either the username or password
+
+##### Body
+
+    Username contains the following illegal character: "[Char]"
+
+or
+
+    Password contains the following illegal character: "[Char]"
+
+\[Char] is the character that posed a problem
+
+---
+
+#### Not found (401)
 
 This response is the result of a request done on an unexistant account
 
@@ -268,6 +302,18 @@ This response is the result of a request done on an account with a password that
 ##### Body
 
     Invalid password.
+
+---
+
+#### Key disabled (403)
+
+This response is the result of an api key used in a request on an account that does not have api key enabled
+
+##### Body
+
+    [Username] does not have key enabled.
+
+\[Username] is the requested account username
 
 
 
@@ -448,6 +494,65 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 
 
+## [/key](https://cry-vs.herokuapp.com/key)
+
+### Method
+
+'POST'
+
+### Input
+
+    {"token":[Token]}
+
+\[Token] is expected to be a string value  
+Any valid connection token can be used
+
+### Outputs
+
+#### Success (200)
+
+This response is the result of a successful request
+
+##### Body
+
+    [Key]
+
+\[Key] is the newly generated api key for the requested account
+
+---
+
+#### Missing token (400)
+
+This response is the result of a missing token parameter in the input json
+
+##### Body
+
+    Token is required.
+
+---
+
+#### Invalid token (403)
+
+This response is the result of requesting to the endpoint with an invalid/expired token
+
+##### Body
+
+    Token is invalid.
+
+---
+
+#### Key disabled (403)
+
+This response is the result of an api key used in a request on an account that does not have api key enabled
+
+##### Body
+
+    [Username] does not have key enabled.
+
+\[Username] is the requested account username
+
+
+
 ## [/dostuff](https://cry-vs.herokuapp.com/dostuff)
 
 ### Method
@@ -472,7 +577,7 @@ This endpoint is temporary and was made solely for testing purposes
 
     Successfully did stuff as [Username]
 
-\[Username] is the token's corresponding account username
+\[Username] is the requested account's username
 
 ---
 

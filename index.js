@@ -39,16 +39,18 @@ const requestListener = function (req, res) {
       }
     }
 
+    console.log(`Requested '${req.url}' with method '${req.method}'\ndata: ${JSON.stringify(data)}`);
+    
     // loop through all routes
     for(let i = 0; i < paths.length; i++)
-      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the file
+      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
         if(!paths[i].method || req.method == paths[i].method)
         try {await paths[i].run(req, res, data);break;} 
         catch (e) {
           console.log(e);
           res.setHeader("status", "Internal server error.");
           res.statusCode = 500;
-          res.end("Inernal server error. this is always a glitch. please contact contributors.");
+          res.end("Internal server error.");
         }
         else {
           res.statusMessage = "Unexpected method.";
