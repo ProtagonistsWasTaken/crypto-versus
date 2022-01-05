@@ -6,7 +6,7 @@ function validateUserInfo(res, data) {
   if(!data.username || !data.password) {
     res.setHeader("status", "Missing data for account creation.");
     res.statusCode = 400;
-    res.end(`${data.username ? "password" : "username"} is required.`);
+    res.end(`${data.username ? "Password" : "Username"} is required.`);
     return false;
   }
   else if(typeof data.username != "string" || typeof data.password != "string") {

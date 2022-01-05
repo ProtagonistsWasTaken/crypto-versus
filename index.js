@@ -50,7 +50,7 @@ const requestListener = function (req, res) {
           console.log(e);
           res.setHeader("status", "Internal server error.");
           res.statusCode = 500;
-          res.end("Inernal server error. this is always a glitch. please contact contributors.");
+          res.end("Internal server error.");
         }
         else {
           res.statusMessage = "Unexpected method.";
