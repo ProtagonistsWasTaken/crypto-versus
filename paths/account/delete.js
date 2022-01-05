@@ -11,7 +11,7 @@ module.exports = {
       var result = await User.deleteOne({username: token.user});  // try to delete the user
       if(!result.deletedCount) {
         sendError(res, {code:500,
-          header:"Database error.",
+          message:"Database error.",
           body:`Could not delete ${token.user}`
         });
       }

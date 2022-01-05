@@ -25,7 +25,7 @@ module.exports = {
         res.end(token.value);
       }
       else sendError(res, {code:403,
-        header:"Account already exists.",
+        message:"Account already exists.",
         body:`${data.username} already exists.`
       });
     }

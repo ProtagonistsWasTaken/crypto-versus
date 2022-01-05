@@ -80,14 +80,14 @@ Object.defineProperty(Token, "fromString", {
     var token = Tokens.findOne({value: tokenString});
     if(!tokenString) {
       sendError(res, {code:400,
-        header:"Missing token.",
+        message:"Missing token.",
         body:"Token is required."
       });
       return undefined;
     }
     else if(token === null) {
       sendError(res, {code:403,
-        header:"Invalid token.",
+        message:"Invalid token.",
         body:"Token is invalid."
       });
       return undefined;
