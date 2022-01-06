@@ -4,7 +4,11 @@ module.exports = {
   urls:["refresh-token"],
   run:async function(req, res, data) {
     var token = Token.fromString(res, data.token);
-    if(token) res.end(token.refresh().value);
+    if(token) {
+      var newToken = token.refresh();
+      res.setHeader("expire", newToken.lifetime);
+      res.end(newToken.value);
+    }
   },
   method:'POST'
 }
