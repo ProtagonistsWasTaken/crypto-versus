@@ -12,11 +12,11 @@ module.exports = {
 
       if(user.keyEnabled) {
         var key = new Token(token.user, 32, 0);
-        res.end(key.value);
         var salt = await Salt.find();
         var hashedKey = await bcrypt.hash(key.value, salt[0].val);
         user.key = hashedKey;
         await user.save();
+        res.end(key.value);
       }
       else sendError(res, {code:403,
         message:"Api key disabled.",

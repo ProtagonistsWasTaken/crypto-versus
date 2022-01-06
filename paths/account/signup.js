@@ -17,7 +17,8 @@ module.exports = {
           username: data.username,
           password: password,
           keyEnabled: data.keyEnabled !== undefined ? data.keyEnabled : false
-        }).save();
+        });
+        await user.save();
 
         // Generate a token
         var token = new Token(data.username, 32, 1200000);
