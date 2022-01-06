@@ -604,6 +604,6 @@ This response is the result of requesting to the endpoint with an invalid/expire
 Found an issue? got any questions? you can contact these contributors
 
 - [Pywon](https://github.com/ThePywon)
-- [AW1534](https://github.com/AW1534)
+- [A_W1534 / addikted](https://github.com/AW1534)
 
 Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this community!
