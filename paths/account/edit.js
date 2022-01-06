@@ -30,7 +30,7 @@ module.exports = {
       user.keyEnabled = data.keyEnabled !== undefined ? data.keyEnabled !== false : user.keyEnabled;
       await user.save();
       
-      res.setHeader("keyEnabled", user.keyEnabled ? user.keyEnabled : false);
+      res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
       res.end("Account updated!");
     }
   },
