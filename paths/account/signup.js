@@ -23,7 +23,7 @@ module.exports = {
         var token = new Token(data.username, 32, 1200000);
         res.setHeader("user", token.user);
         res.setHeader("expire", token.lifetime);
-        res.setHeader("keyEnabled", user.keyEnabled ? user.keyEnabled : false);
+        res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
         res.end(token.value);
       }
       else sendError(res, {code:403,
