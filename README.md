@@ -1,6 +1,6 @@
 # Crypto Versus
 
-## A Multiplayer Versus Hacking Simulation
+### A Multiplayer Versus Hacking Simulation
 
 Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/1812820/Bitburner/)
 
