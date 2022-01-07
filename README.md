@@ -10,8 +10,13 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 ## Table of content
 
-* [Possible ouputs for all endpoints](#possible-outputs-any-endpoint)
-* [routes](#routes)
+Don't wanna scroll through all this?  
+Then simply click on one of the links!
+
+Cannot find the problem below?  
+Try looking at some [possible ouputs for all endpoints](#possible-outputs-any-endpoint)
+
+* [Routes](#routes)
     * [/signup](#signup)
     * [/login](#login)
     * [/edit-account](#edit-account)
@@ -37,7 +42,7 @@ _WARNING: there may be security issues in the dev branch. continue at your own d
 
 ### Possible outputs (any endpoint)
 
-#### Failed parsing (400)
+#### Expected json data (400)
 
 This response is the result of a request that cannot be parsed into json  
 To prevent this response from happening, across all languages, it is recommended to send **String formatted json**
@@ -71,7 +76,7 @@ This response is the result of a request made using a method invalid with the cu
 
 ---
 
-#### Internal error (500)
+#### Internal server error (500)
 
 This response is the result of an internal server error  
 This is always a bug and if encountered, [tell us](#community)!
@@ -97,7 +102,7 @@ Any
 
 ### Outputs
 
-#### Success (200)
+#### OK (200)
 
 This response is the result of making a request on the main route
 
@@ -117,7 +122,7 @@ This response is the result of making a request on the main route
 
 ### Input
 
-    {"username":[Username],"password":[Password]}
+    {"username":[Username], "password":[Password]}
 
 \[Username] and \[Password] are expected to be string values  
 Legal characters that can be used for thoses parameters are:
@@ -128,9 +133,17 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
 
 ### Outputs
 
-#### Success (200)
+#### OK (200)
 
 This response is the result of a successful account creation
+
+##### Headers
+
+    {"expire":[Lifetime], "user":[Username], "key":[KeyEnabled]}
+
+\[Lifetime] is the returned token's lifetime in **ms**, if you plan on making a wrapper, we suggest refreshing the token **before** the lifetime ends  
+\[Username] is the requested account username  
+\[KeyEnabled] is a bool representing either the requested account has api key enabled or not
 
 ##### Body
 
@@ -197,7 +210,7 @@ or
 
 ---
 
-#### Already existant (403)
+#### Account already exists (403)
 
 This response is the result of a request done on an already registered account username
 
@@ -228,9 +241,17 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
 
 ### Outputs
 
-#### Success (200)
+#### OK (200)
 
 This response is the result of a successful connection
+
+##### Headers
+
+    {"expire":[Lifetime], "user":[Username], "key":[KeyEnabled]}
+
+\[Lifetime] is the returned token's lifetime in **ms**, if you plan on making a wrapper, we suggest refreshing the token **before** the lifetime ends  
+\[Username] is the requested account username  
+\[KeyEnabled] is a bool representing either the requested account has api key enabled or not
 
 ##### Body
 
@@ -248,22 +269,6 @@ This response is the result of a missing parameter in the input json
 ##### Body
 
     Missing login info
-
----
-
-#### Invalid data (417)
-
-This response is the result of a username or password which type is not "String"
-
-##### Body
-
-    Unexpected type for username.
-    Expected String.
-
-or
-
-    Unexpected type for password.
-    Expected String.
 
 ---
 
@@ -315,6 +320,22 @@ This response is the result of an api key used in a request on an account that d
 
 \[Username] is the requested account username
 
+---
+
+#### Invalid data (417)
+
+This response is the result of a username or password which type is not "String"
+
+##### Body
+
+    Unexpected type for username.
+    Expected String.
+
+or
+
+    Unexpected type for password.
+    Expected String.
+
 
 
 ## [/edit-account](https://cry-vs.herokuapp.com/edit-account)
@@ -332,8 +353,9 @@ Any valid connection token can be used
 
 Optionnal additional info
 
-    {"username":[Username],"password":[Password]}
+    {"username":[Username], "password":[Password], "keyEnabled":[KeyEnabled]}
 
+\[KeyEnabled] is expected to be a boolean value  
 \[Username] and \[Password] are expected to be string values  
 Legal characters that can be used for thoses parameters are:
 
@@ -346,6 +368,13 @@ ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
 #### Success (200)
 
 This response is the result of a successful request
+
+##### Headers
+
+    {"user":[Username], "key":[KeyEnabled]}
+
+\[Username] is the requested account username  
+\[KeyEnabled] is a bool representing either the requested account has api key enabled or not
 
 ###### Body
 
@@ -464,6 +493,12 @@ This response is the result of a successful token refresh
 
 Reminder that this endpoint **does not*** increase the lifetime of the current token  
 It generates a new one and invalidates the first
+
+##### Headers
+
+    {"expire":[Lifetime]}
+
+\[Lifetime] is the returned token's lifetime in **ms**, if you plan on making a wrapper, we suggest refreshing the token **before** the lifetime ends
 
 ##### Body
 

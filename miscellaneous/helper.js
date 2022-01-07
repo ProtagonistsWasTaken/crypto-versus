@@ -6,14 +6,14 @@ function validateUserInfo(res, data) {
   // dont allow request if they didnt specify username and password
   if(!data.username || !data.password) {
     sendError(res, {code:400,
-      message:"Missing data for account creation.",
+      message:"Missing data",
       body:`${data.username ? "Password" : "Username"} is required.`
     });
     return false;
   }
   else if(typeof data.username != "string" || typeof data.password != "string") {
     sendError(res, {code:417,
-      message:"Invalid data for account creation.",
+      message:"Invalid data",
       body:`Unexpected type for ${typeof data.username != "string" ? "username" : "password"}.\nExpected String.`
     });
     return false;
@@ -25,7 +25,7 @@ function validateUserInfo(res, data) {
     for(let i = 0; i < data.username.length; i++)
       if(!chars.includes(data.username[i].toUpperCase())) { // dont allow char if not in list
         sendError(res, {code:400,
-          message:"Illegal character.",
+          message:"Illegal character",
           body:`Username contains the following illegal character: "${data.username[i]}"`
         });
         return false;
@@ -33,7 +33,7 @@ function validateUserInfo(res, data) {
     for(let i = 0; i < data.password.length; i++)
       if(!chars.includes(data.password[i].toUpperCase())) {
         sendError(res, {code:400,
-          message:"Illegal character.",
+          message:"Illegal character",
           body:`Password contains the following illegal character: "${data.password[i]}"`
         });
         return false;

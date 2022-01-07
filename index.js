@@ -15,7 +15,8 @@ const http = require("http"); // require http module
 // require all the routes and append them to a list named "paths"
 const paths = require("./paths");
 
-const {setup} = require("./database/schemas.js");
+const { sendError } = require("./miscellaneous/error.js");
+const { setup } = require("./database/schemas.js");
 setup();
 
 // when a request is made by a user
@@ -32,9 +33,10 @@ const requestListener = function (req, res) {
       try{ data = JSON.parse(data) }
       catch(e) {
         // send an error message if failed
-        res.statusMessage = "Expected json data.";
-        res.statusCode = 400;
-        res.end("Json parsing failed.");
+        sendError(res, {code:400,
+          message:"Expected json data.",
+          body:"Json parsing failed."
+        });
         return;
       }
     }
@@ -48,24 +50,25 @@ const requestListener = function (req, res) {
         try {await paths[i].run(req, res, data);break;} 
         catch (e) {
           console.log(e);
-          res.setHeader("status", "Internal server error.");
-          res.statusCode = 500;
-          res.end("Internal server error.");
+          sendError(res, {code:500,
+            message:"Internal server error.",
+            body:"Internal server error."
+          });
         }
         else {
-          res.statusMessage = "Unexpected method.";
-          res.statusCode = 405;
-          res.end(`path '${req.url}' should always be requested with method '${paths[i].method}'.`);
+          sendError(res, {code:405,
+            message:"Unexpected method.",
+            body:`path '${req.url}' should always be requested with method '${paths[i].method}'.`
+          });
           return;
         }
       }
     
     // if no response is sent, send a 404
-    if(!res.finished) {
-      res.statusCode = 404
-      res.statusMessage = "Not found."
-      res.end("This route is not available / not found");
-    }
+    if(!res.finished) sendError(res, {code:404,
+      message:"Not found.",
+      body:"This route is not available / not found"
+    });
   });
 };
 
