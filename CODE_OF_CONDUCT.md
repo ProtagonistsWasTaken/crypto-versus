@@ -117,6 +117,5 @@ individual, or aggression toward or disparagement of classes of individuals.
 the community.
 
 ---
-##TL;DR:
-
+## TL;DR:
 be nice.
