@@ -77,6 +77,8 @@ const requestListener = function (req, res) {
 const server = http.createServer(requestListener);  //
 const PORT = process.env["PORT"] || 443;            //
                                                     //
-server.listen(PORT, () => {                         //
+server.listen(PORT, () => {                //
   console.log(`Server is running on port ${PORT}`); //
 });                                                 //
+
+module.exports = server // for test.js
