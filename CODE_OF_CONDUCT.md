@@ -37,8 +37,6 @@ Examples of unacceptable behavior include:
   address, without their explicit permission
 * Other conduct which could reasonably be considered inappropriate in a
   professional setting
-* Creating a copy of the project and making a monetized version of the already
-  free project
 
 ## Enforcement Responsibilities
 
