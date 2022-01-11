@@ -29,13 +29,28 @@ Try looking at some [possible ouputs for all endpoints](#possible-outputs-any-en
 
 ## How to use?
 
-This projetc is hosted on [Heroku](https://heroku.com).
+This assumes a basic knowledge of HTTP
 
-Main branch domain: <https://cry-vs.herokuapp.com/>  
-Dev branch domain:  <https://beta-cry-vs.herokuapp.com/>
+### API
+This api is an HTTP api. you can send a message to a server running *Crypto Versus* and it will respond. This is all you need to do to create a script! (wow, so simple)
 
-_WARNING: there may be security issues in the dev branch. continue at your own disposal_
+### Wrapper
+Sending HTTP requests is clunky. it gets annoying, and confusing quickly when you have loads of them. This is why we **highly** recommend you use a wrapper.
 
+Wrappers will do exactly the same thing for you, but in a much more intuitive way
+
+#### Official wrappers:
+* Javascript - `cry_vs.js` **[npm](https://npmjs.com/package/@protagonists/cry_vs)** **|** **[GitHub](https://github.com/ThePywon/cry-vs.js)**
+* Python - `cry_vs.js` **[PyPI](https://pypi.org/project/cry-vs.py/)** **|** **[GitHub](https://github.com/AW1534/cry-vs.py)**
+
+
+### Servers
+The official server is hosted on [Heroku](https://heroku.com).
+
+Main branch domain: <https://cry-vs.herokuapp.com/>
+Dev branch domain*:  <https://beta-cry-vs.herokuapp.com/>
+
+*\*WARNING: there may be security issues in the dev branch. continue at your own disposal*
 ---
 
 
@@ -360,7 +375,7 @@ Legal characters that can be used for thoses parameters are:
 
 ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
 
-(Capitals do not matter)
+(Case insensitive)
 
 ### Outputs
 
@@ -635,7 +650,9 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 ## Community
 
-Found an issue? got any questions? you can contact these contributors
+Found an issue?  
+got any questions?  
+you can contact these contributors
 
 - [Pywon](https://github.com/ThePywon)
 - [A_W1534 / addikted](https://github.com/AW1534)

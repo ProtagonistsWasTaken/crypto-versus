@@ -7,5 +7,6 @@ module.exports = [
   require("./account/delete.js"),
   require("./dostuff.js"),
   require("./token/refresh.js"),
-  require("./account/key.js")
+  require("./account/key.js"),
+  require("./securitytxt")
 ];
