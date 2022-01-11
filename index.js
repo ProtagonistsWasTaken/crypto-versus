@@ -42,6 +42,8 @@ const requestListener = function (req, res) {
     }
 
     console.log(`Requested '${req.url}' with method '${req.method}'\ndata: ${JSON.stringify(data)}`);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
     
     // loop through all routes
     for(let i = 0; i < paths.length; i++)
@@ -64,7 +66,7 @@ const requestListener = function (req, res) {
         }
       }
     
-    // if no response is sent, send a 404
+    // if the request isnt handled, send a 404
     if(!res.finished) sendError(res, {code:404,
       message:"Not found.",
       body:"This route is not available / not found"
@@ -80,3 +82,5 @@ const PORT = process.env["PORT"] || 443;            //
 server.listen(PORT, () => {                         //
   console.log(`Server is running on port ${PORT}`); //
 });                                                 //
+
+module.exports = server // for test.js
