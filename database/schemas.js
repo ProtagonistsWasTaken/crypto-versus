@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt");
 const Mongoose = require("mongoose");
 Mongoose.connect(process.env["DB_URL"])
 
-//Mongoose.connect(`mongodb+srv://cry_vs:${process.env["DB_PASSWORD"]}@cluster0.sinxd.mongodb.net/db?retryWrites=true&w=majority`);
-
 // this schema handles all data in the "Salt" cluster
 const Salt = Mongoose.model("Salt", new Mongoose.Schema({
   val: {
