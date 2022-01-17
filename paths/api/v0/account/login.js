@@ -16,7 +16,7 @@ module.exports = {
 
         if(user === null) sendError(res, {code:401,
           message:"Account not found.",
-          body:`${data.username} doesn't exists.`
+          body:`${data.username} doesn't exist.`
         });
         else if(user.password != password) sendError(res, {code:403,
           message:"Login unsuccessful.",

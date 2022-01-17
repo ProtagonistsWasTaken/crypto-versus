@@ -6,11 +6,19 @@
     <meta property="og:description" content="A multiplayer versus hacking simulator"/>
     <meta property="og:url" content="https://cry-vs.herokuapp.com/"/>
     <meta property="og:image" content="full thumbnail path"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Versus</title>
     <style>
+      @font-face {
+        font-family:'roboto';
+        src:url('https://cry-vs.herokuapp.com/Assets/Fonts/RobotoMono-Regular.ttf') format('truetype'),
+            url('https://cry-vs.herokuapp.com/Assets/Fonts/RobotoMono-Regular.woff') format('woff');
+      }
+
       body {
         color:white;
         background-color:black;
+        font-family:roboto;
       }
 
       form {
@@ -28,7 +36,8 @@
         color:white;
         background-color:#111111;
         border-color:white;
-        border-radius:5px;
+        border-width:0px;
+        border-radius:10px;
         width:200px;
         height:25px;
         margin:5px;
@@ -44,7 +53,7 @@
 
       form p {
         width:200px;
-        margin:20px auto;
+        margin:40px auto 20px;
       }
 
       #submit {
@@ -65,7 +74,6 @@
 
       #signup_link {
         color:teal;
-        text-decoration:underline;
         cursor:pointer;
       }
 
@@ -81,7 +89,7 @@
       <input id="username" type="username" placeholder="username" maxlength="30" size="30" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~/\\!?&$#*@]+" autofocus required/><br/>
       <input id="password" maxlength="30" size="30" type="password" placeholder="password" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~/\\!?&$#*@]+" required/><br/>
       <input id="submit" type="submit"/>
-      <p>Don't have an account?<br/><a id="signup_link">Signup</a></p>
+      <p>Don't have an account?</p><a id="signup_link">Signup</a>
     </form>
     <script>
       function login() {
