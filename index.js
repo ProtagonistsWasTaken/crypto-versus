@@ -17,6 +17,8 @@ const paths = require("./paths");
 
 const { sendError } = require("./miscellaneous/error.js");
 const { setup } = require("./database/schemas.js");
+const fs = require("fs");
+const path = require("path");
 setup();
 
 // when a request is made by a user
@@ -65,12 +67,27 @@ const requestListener = function (req, res) {
           return;
         }
       }
-    
-    // if the request isnt handled, send a 404
-    if(!res.finished) sendError(res, {code:404,
-      message:"Not found.",
-      body:"This route is not available / not found"
-    });
+
+    // the request isnt handled, try to find a page in the public folder
+    if(!res.finished) {
+      try {
+        // try to send file with the same name as the request
+        res.end(fs.readFileSync(path.join(__dirname, "public", req.url.substr(1))));
+      } catch (e) {
+        try {
+          // try to send file with the same name as the request but with .html extension
+          res.end(fs.readFileSync(path.join(__dirname, "public", req.url.substr(1)) + ".html"));
+
+        } catch (e) {
+          sendError(res, {code:404,
+            message:"Not found.",
+            body:"This route is not available / not found"
+          })
+        }
+
+      }
+
+    }
   });
 };
 
