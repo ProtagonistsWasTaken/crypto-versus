@@ -8,5 +8,6 @@ module.exports = [
   require("./dostuff"),
   require("./token/refresh"),
   require("./account/key"),
-  require("./securitytxt")
+  require("./securitytxt"),
+  require("./assets.js")
 ];
