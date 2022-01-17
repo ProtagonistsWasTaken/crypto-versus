@@ -104,26 +104,6 @@ This is always a bug and if encountered, [tell us](#community)!
 List of all routes and usage guides. this goes for a while so bear with us.  * deep breath *
 
 
-## [/index](https://cry-vs.herokuapp.com/index)
-
-### Method
-
-Any
-
-### Input
-
-Any
-
-### Outputs
-
-#### OK (200)
-
-This response is the result of making a request on the main route
-
-##### Body
-
-    There's nothing here!
-
 
 ---
 ## Routes
@@ -141,7 +121,7 @@ This response is the result of making a request on the main route
 \[Username] and \[Password] are expected to be string values  
 Legal characters that can be used for thoses parameters are:
 
-ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\!?&$#*@
 
 (Case insensitive)
 
@@ -249,7 +229,7 @@ This response is the result of a request done on an already registered account u
 \[Username] and \[Password] are expected to be string values  
 Legal characters that can be used for thoses parameters are:
 
-ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\!?&$#*@
 
 (Case insensitive)
 
@@ -373,7 +353,7 @@ Optionnal additional info
 \[Username] and \[Password] are expected to be string values  
 Legal characters that can be used for thoses parameters are:
 
-ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\'"
+ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\!?&$#*@
 
 (Case insensitive)
 
