@@ -7,7 +7,7 @@ try {
   // import dotenv (dev dependency)
   require("dotenv").config(); // IMPORTANT: set your environment variables into a file called .env ||  more info in README.md
 } catch(e) {
-  console.log(".env was not loaded. you can safely ignore this if your env values do not depend on it");
+  console.log("dotenv was not loaded. you can safely ignore this if your env values do not depend on it");
 }
 
 const http = require("http"); // require http module
@@ -28,8 +28,20 @@ const aliases = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alias.
 
 // when a request is made by a user
 const requestListener = function (req, res) {
-
   var data = "";
+
+  // loop through all the aliases
+  let alias;
+  for (let i = 0; i < aliases.length; i++) {
+    alias = aliases[i];
+    // if the alias is found in the request url
+    if (alias.aliases.filter(a => a === req.url).length > 0) {
+      // redirect to the alias
+      res.statusCode = 302;
+      res.setHeader('Location', alias.path);
+      return res.end();
+    }
+  }
 
   req.on("data", d => {
     data += d.toString();

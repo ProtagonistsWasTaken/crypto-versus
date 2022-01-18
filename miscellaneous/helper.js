@@ -21,7 +21,7 @@ function validateUserInfo(res, data) {
   else
   {
     // list of allowed chars
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\!?&$#*@";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~!?&$#";
     for(let i = 0; i < data.username.length; i++)
       if(!chars.includes(data.username[i].toUpperCase())) { // dont allow char if not in list
         sendError(res, {code:400,
