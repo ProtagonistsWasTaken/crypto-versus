@@ -15,14 +15,20 @@ const http = require("http"); // require http module
 // require all the routes and append them to a list named "paths"
 const paths = require("./paths");
 
+//Other important imports
 const { sendError } = require("./miscellaneous/error.js");
 const { setup } = require("./database/schemas.js");
 const fs = require("fs");
 const path = require("path");
+//Setup database schemas
 setup();
+
+//Get all public file aliases
+const aliases = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alias.json")));
 
 // when a request is made by a user
 const requestListener = function (req, res) {
+
   var data = "";
 
   req.on("data", d => {
@@ -72,11 +78,11 @@ const requestListener = function (req, res) {
     if(!res.finished) {
       try {
         // try to send file with the same name as the request
-        res.end(fs.readFileSync(path.join(__dirname, "public", req.url.substr(1))));
+        res.end(fs.readFileSync(path.join(__dirname, "public", req.url)));
       } catch (e) {
         try {
           // try to send file with the same name as the request but with .html extension
-          res.end(fs.readFileSync(path.join(__dirname, "public", req.url.substr(1)) + ".html"));
+          res.end(fs.readFileSync(path.join(__dirname, "public", req.url) + ".html"));
 
         } catch (e) {
           sendError(res, {code:404,
@@ -94,10 +100,10 @@ const requestListener = function (req, res) {
 
 // start listening to requests ////////////////////////
 const server = http.createServer(requestListener);   //
-const PORT = process.env["PORT"] || 80;  //
-                                                     //
+const PORT = process.env["PORT"] || 80;              //
+//                                                   //
 server.listen(PORT, () => {                          //
   console.log(`Server is running on port ${PORT}`);  //
 });                                                  //
-
-module.exports = server // for test.js
+//                                                   //
+module.exports = server // for test.js               //

@@ -1,10 +1,20 @@
-// basically precompiled headers but javascript. import this to get import all routes
-module.exports = [
-  require("./api/v0/account/signup"),
-  require("./api/v0/account/login"),
-  require("./api/v0/account/edit"),
-  require("./api/v0/account/delete"),
-  require("./api/game/dostuff"),
-  require("./api/v0/token/refresh"),
-  require("./api/v0/account/key"),
-];
+const fileExports = [];
+
+const fs = require("fs");
+const path = require("path")
+
+const findFiles = (dir, files) => {
+  const dirFiles = fs.readdirSync(dir)
+  dirFiles.forEach(file => {
+    const filePath = path.join(dir, file)
+    const stat = fs.statSync(filePath)
+    if (stat.isDirectory()) {
+      findFiles(filePath, files)
+    } else {
+      fileExports.push(require(filePath));
+    }
+  })
+}
+
+findFiles(path.join(__dirname, "./api"));
+module.exports = fileExports;
