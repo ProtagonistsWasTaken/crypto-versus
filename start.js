@@ -20,6 +20,7 @@ const { sendError } = require("./miscellaneous/error.js");
 const { setup } = require("./database/schemas.js");
 const fs = require("fs");
 const path = require("path");
+const ejs = require("ejs");
 //Setup database schemas
 setup();
 
@@ -82,15 +83,22 @@ const requestListener = function (req, res) {
     // the request isnt handled, try to find a page in the public folder
     if(!res.finished) {
       // try to send file with the same name as the request
+      if(fs.existsSync(path.join(__dirname, "public", `${req.url}.ejs`)))
+        res.end(ejs.render(fs.readFileSync(path.join(__dirname, "public", `${req.url}.ejs`), "utf8"), {
+          req: req,
+          res: res,
+          data: data
+        }));
       if(fs.existsSync(path.join(__dirname, "public", req.url)))
         res.end(fs.readFileSync(path.join(__dirname, "public", req.url)));
       else if(fs.existsSync(path.join(__dirname, "public", `${req.url}.html`)))
         res.end(fs.readFileSync(path.join(__dirname, "public", `${req.url}.html`)));
       else
-        sendError(res, {code:404,
-          message:"Not found.",
-          body:"This route is not available / not found"
-        });
+        if(!res.finished)  // hey Pywon, I know you're tempted to delete this nested if statement, but if you do, it will become unreliable (I tried it without it
+          sendError(res, {code:404,
+            message:"Not found.",
+            body:"This route is not available / not found"
+          });
     }
   });
 };
