@@ -28,9 +28,11 @@ const aliasJSON = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alia
 
 // when a request is made by a user
 const requestListener = function (req, res) {
+  // region middleware stack
   var data = "";
-
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  req.on("data", d => {
+    data += d.toString();
+  });
 
   // loop through all the aliases
   let alias = aliasJSON.filter(alias => alias.aliases.filter(a => a === req.url).length > 0)[0];
@@ -40,10 +42,7 @@ const requestListener = function (req, res) {
     res.setHeader('Location', alias.path);
     return res.end();
   }
-
-  req.on("data", d => {
-    data += d.toString();
-  });
+  //endregion
 
   req.on("end", async () => {
     if(req.method == 'POST' || req.method == 'PUT') {

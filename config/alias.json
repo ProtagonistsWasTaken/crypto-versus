@@ -11,7 +11,6 @@
     "path":"/.well-known/security.txt",
     "aliases":[
       "/security",
-      "/.well-known",
       "/.well-known/security"
     ]
   }
