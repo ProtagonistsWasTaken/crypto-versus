@@ -4,26 +4,23 @@
 
 Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/1812820/Bitburner/)
 
-
-
-
 ## Table of content
 
 Don't wanna scroll through all this?  
 Then simply click on one of the links!
 
-Cannot find the problem below?  
-Try looking at some [possible ouputs for all endpoints](#possible-outputs-any-endpoint)
-
 * [Routes](#routes)
-    * [/signup](#signup)
-    * [/login](#login)
-    * [/edit-account](#edit-account)
-    * [/delete-account](#delete-account)
-    * [/refresh-token](#refresh-token)
-    * [/key](#key)
+    * [/signup](#api-v0-signup)
+    * [/login](#api-v0-login)
+    * [/edit-account](#api-v0-edit-account)
+    * [/delete-account](#api-v0-delete-account)
+    * [/refresh-token](#api-v0-refresh-token)
+    * [/key](#api-v0-key)
     * [/dostuff](#dostuff)
 * [Community](#community)
+
+Cannot find what you're looking for above?  
+Try looking at some [possible ouputs](#possible-outputs-any-endpoint) for all endpoints
 
 
 
@@ -41,7 +38,7 @@ Wrappers will do exactly the same thing for you, but in a much more intuitive wa
 
 #### Official wrappers:
 * Javascript - `cry_vs.js` **[npm](https://npmjs.com/package/@protagonists/cry_vs)** **|** **[GitHub](https://github.com/ThePywon/cry-vs.js)**
-* Python - `cry_vs.js` **[PyPI](https://pypi.org/project/cry-vs.py/)** **|** **[GitHub](https://github.com/AW1534/cry-vs.py)**
+* Python - `cry_vs.py` **[PyPI](https://pypi.org/project/cry-vs.py/)** **|** **[GitHub](https://github.com/AW1534/cry-vs.py)**
 
 
 ### Servers
@@ -100,15 +97,13 @@ This is always a bug and if encountered, [tell us](#community)!
     Internal server error
 
 
+
 # Routes
 List of all routes and usage guides. this goes for a while so bear with us.  * deep breath *
 
-
-
 ---
-## Routes
 
-## [/signup](https://cry-vs.herokuapp.com/signup)
+## [/api/v0/signup](https://cry-vs.herokuapp.com/api/v0/signup)
 
 ### Method
 
@@ -216,7 +211,7 @@ This response is the result of a request done on an already registered account u
 
 
 
-## [/login](https://cry-vs.herokuapp.com/login)
+## [/api/v0/login](https://cry-vs.herokuapp.com/api/v0/login)
 
 ### Method
 
@@ -332,7 +327,7 @@ or
 
 
 
-## [/edit-account](https://cry-vs.herokuapp.com/edit-account)
+## [/api/v0/edit-account](https://cry-vs.herokuapp.com/api/v0/edit-account)
 
 ### Method
 
@@ -412,7 +407,7 @@ or
 
 
 
-## [/delete-account](https://cry-vs.herokuapp.com/delete-account)
+## [/api/v0/delete-account](https://cry-vs.herokuapp.com/api/v0/delete-account)
 
 ### Method
 
@@ -466,7 +461,7 @@ This should never happen, if it does, [tell us](#community)
 
 
 
-## [/refresh-token](https://cry-vs.herokuapp.com/refresh-token)
+## [/api/v0/refresh-token](https://cry-vs.herokuapp.com/api/v0/refresh-token)
 
 ### Method
 
@@ -523,7 +518,7 @@ This response is the result of requesting to the endpoint with an invalid/expire
 
 
 
-## [/key](https://cry-vs.herokuapp.com/key)
+## [/api/v0/key](https://cry-vs.herokuapp.com/api/v0/key)
 
 ### Method
 
