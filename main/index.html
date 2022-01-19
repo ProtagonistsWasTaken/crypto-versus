@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Crypto Versus"/>
+    <meta property="og:description" content="A multiplayer versus hacking simulator"/>
+    <meta property="og:url" content="https://cry-vs.herokuapp.com/"/>
+    <meta property="og:image" content="full thumbnail path"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Versus</title>
+    <style>
+      @font-face {
+        font-family:'roboto';
+        src:url('https://cry-vs.herokuapp.com/Assets/Fonts/RobotoMono-Regular.ttf') format('truetype'),
+            url('https://cry-vs.herokuapp.com/Assets/Fonts/RobotoMono-Regular.woff') format('woff');
+      }
+
+      body {
+        color:white;
+        background-color:black;
+        font-family:roboto;
+      }
+
+      form {
+        width:250px;
+        margin:auto;
+        margin-top:10%;
+        text-align:center;
+      }
+
+      form h1 {
+        margin-bottom:50px;
+      }
+
+      form input {
+        color:white;
+        background-color:#111111;
+        border-color:white;
+        border-width:0px;
+        border-radius:10px;
+        width:200px;
+        height:25px;
+        margin:5px;
+      }
+
+      form input:hover, form input:focus {
+        background-color:#222222;
+      }
+
+      form input:focus {
+        outline:1px solid white;
+      }
+
+      form p {
+        width:200px;
+        margin:40px auto 20px;
+      }
+
+      #submit {
+        width:124px;
+        height:40px;
+        margin-top:20px;
+        font-weight:bold;
+      }
+
+      #submit:active {
+        background-color:#333333;
+      }
+
+      #status_message {
+        border-radius:5px;
+        overflow:hidden;
+      }
+
+      #signup_link {
+        color:teal;
+        cursor:pointer;
+      }
+
+      #signup_link:active {
+        color:red;
+      }
+    </style>
+  </head>
+  <body>
+    <form onsubmit="return login()" autocomplete="off">
+      <h1>Login</h1>
+      <p id="status_message"></p>
+      <input id="username" type="username" placeholder="username" maxlength="30" size="30" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~/\\!?&$#*@]+" autofocus required/><br/>
+      <input id="password" maxlength="30" size="30" type="password" placeholder="password" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~/\\!?&$#*@]+" required/><br/>
+      <input id="submit" type="submit"/>
+      <p>Don't have an account?</p><a id="signup_link">Signup</a>
+    </form>
+    <script>
+      function login() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var data = {username,password}
+
+        var statusMessage = document.getElementById("status_message");
+
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", ()=>{
+          if(xhr.status === 200) {
+            statusMessage.innerText = "Logged in!";
+            statusMessage.style.color = "lime";
+            statusMessage.style.backgroundColor = "#003300";
+            statusMessage.style.borderLeft = "2px solid lime";
+          }
+          else {
+            statusMessage.innerText = xhr.responseText;
+            statusMessage.style.color = "red";
+            statusMessage.style.backgroundColor = "#330000";
+            statusMessage.style.borderLeft = "2px solid red";
+          }
+        });
+        xhr.open("POST", "https://cry-vs.herokuapp.com/login");
+        xhr.send(JSON.stringify(data));
+        return false;
+      }
+    </script>
+  </body>
+</html>
