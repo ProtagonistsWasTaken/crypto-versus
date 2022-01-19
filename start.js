@@ -13,7 +13,7 @@ try {
 const http = require("http"); // require http module
 
 // require all the routes and append them to a list named "paths"
-const paths = require("./paths");
+const endpoints = require("./endpoints");
 
 //Other important imports
 const { sendError } = require("./miscellaneous/error.js");
@@ -24,23 +24,21 @@ const path = require("path");
 setup();
 
 //Get all public file aliases
-const aliases = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alias.json")));
+const aliasJSON = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alias.json")));
 
 // when a request is made by a user
 const requestListener = function (req, res) {
   var data = "";
 
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   // loop through all the aliases
-  let alias;
-  for (let i = 0; i < aliases.length; i++) {
-    alias = aliases[i];
-    // if the alias is found in the request url
-    if (alias.aliases.filter(a => a === req.url).length > 0) {
-      // redirect to the alias
-      res.statusCode = 302;
-      res.setHeader('Location', alias.path);
-      return res.end();
-    }
+  let alias = aliasJSON.filter(alias => alias.aliases.filter(a => a === req.url).length > 0)[0];
+  if(alias) {
+    // redirect to the alias
+    res.statusCode = 302;
+    res.setHeader('Location', alias.path);
+    return res.end();
   }
 
   req.on("data", d => {
@@ -62,49 +60,38 @@ const requestListener = function (req, res) {
     }
 
     console.log(`Requested '${req.url}' with method '${req.method}'\ndata: ${JSON.stringify(data)}`);
-
-    res.setHeader("Access-Control-Allow-Origin", "*");
     
     // loop through all routes
-    for(let i = 0; i < paths.length; i++)
-      if(paths[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
-        if(!paths[i].method || req.method == paths[i].method)
-        try {await paths[i].run(req, res, data);break;} 
-        catch (e) {
-          console.log(e);
-          sendError(res, {code:500,
-            message:"Internal server error.",
-            body:"Internal server error."
-          });
-        }
-        else {
-          sendError(res, {code:405,
+    for(let i = 0; i < endpoints.length; i++)
+      if(endpoints[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
+        if(!endpoints[i].method || req.method == endpoints[i].method)
+          try {await endpoints[i].run(req, res, data);break} 
+          catch (e) {
+            console.log(e);
+            sendError(res, {code:500,
+              message:"Internal server error.",
+              body:"Internal server error."
+            });
+          }
+        else
+          return sendError(res, {code:405,
             message:"Unexpected method.",
-            body:`path '${req.url}' should always be requested with method '${paths[i].method}'.`
+            body:`path '${req.url}' should always be requested with method '${endpoints[i].method}'.`
           });
-          return;
-        }
       }
 
     // the request isnt handled, try to find a page in the public folder
     if(!res.finished) {
-      try {
-        // try to send file with the same name as the request
+      // try to send file with the same name as the request
+      if(fs.existsSync(path.join(__dirname, "public", req.url)))
         res.end(fs.readFileSync(path.join(__dirname, "public", req.url)));
-      } catch (e) {
-        try {
-          // try to send file with the same name as the request but with .html extension
-          res.end(fs.readFileSync(path.join(__dirname, "public", req.url) + ".html"));
-
-        } catch (e) {
-          sendError(res, {code:404,
-            message:"Not found.",
-            body:"This route is not available / not found"
-          })
-        }
-
-      }
-
+      else if(fs.existsSync(path.join(__dirname, "public", `${req.url}.html`)))
+        res.end(fs.readFileSync(path.join(__dirname, "public", `${req.url}.html`)));
+      else
+        sendError(res, {code:404,
+          message:"Not found.",
+          body:"This route is not available / not found"
+        });
     }
   });
 };
@@ -118,4 +105,4 @@ server.listen(PORT, () => {                          //
   console.log(`Server is running on port ${PORT}`);  //
 });                                                  //
 //                                                   //
-module.exports = server // for test.js               //
+module.exports = server; // for test.js              //

@@ -74,6 +74,7 @@
 
       #signup_link {
         color:teal;
+        text-decoration:none;
         cursor:pointer;
       }
 
@@ -89,7 +90,7 @@
       <input id="username" type="username" placeholder="username" maxlength="30" size="30" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~!?&$#]+" autofocus required/><br/>
       <input id="password" maxlength="30" size="30" type="password" placeholder="password" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~!?&$#]+" required/><br/>
       <input id="submit" type="submit"/>
-      <p>Don't have an account?</p><a id="signup_link">Signup</a>
+      <p>Don't have an account?</p><a href="https://cry-vs.herokuapp.com/signup" id="signup_link">Signup</a>
     </form>
     <script>
       function login() {
@@ -114,7 +115,7 @@
             statusMessage.style.borderLeft = "2px solid red";
           }
         });
-        xhr.open("POST", "https://cry-vs.herokuapp.com/login");
+        xhr.open("POST", "https://cry-vs.herokuapp.com/api/v0/login");
         xhr.send(JSON.stringify(data));
         return false;
       }

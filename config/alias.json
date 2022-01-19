@@ -1,9 +1,18 @@
 [
   {
-    "path":"/index",
+    "path":"/login",
     "aliases":[
       "/",
-      "/home"
+      "/home",
+      "/index"
+    ]
+  },
+  {
+    "path":"/.well-known/security.txt",
+    "aliases":[
+      "/security",
+      "/.well-known",
+      "/.well-known/security"
     ]
   }
 ]
