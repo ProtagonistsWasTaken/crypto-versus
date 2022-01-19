@@ -4,7 +4,7 @@ const { Salt, User } = require("../../database/schemas.js");
 const { Token, Tokens, validateUserInfo, sendError } = require("../../miscellaneous");
 
 module.exports = {
-  urls:["login.ejs","signin","sign-in", "account/login", "account/signin", "account/sign-in"],
+  urls:["login","signin","sign-in", "account/login", "account/signin", "account/sign-in"],
   run:async function(req, res, data) {
     let newToken;
     let token;

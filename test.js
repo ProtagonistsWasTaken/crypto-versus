@@ -1,7 +1,7 @@
 // run "npm test" to run this file
 
 // import the server
-const app = require("./src/start")
+const app = require("./start")
 
 // import various dependencies
 const assert = require('assert');
