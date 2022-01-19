@@ -1,10 +1,10 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../database/schemas.js");
-const { Token, Tokens, validateUserInfo, sendError } = require("../../miscellaneous");
+const { Salt, User } = require("../../../../database/schemas.js");
+const { Token, Tokens, validateUserInfo, sendError } = require("../../../../miscellaneous");
 
 module.exports = {
-  urls:["login","signin","sign-in", "account/login", "account/signin", "account/sign-in"],
+  urls:["api/v0/login","api/v0/signin","api/v0/sign-in", "api/v0/account/login", "api/v0/account/signin", "api/v0/account/sign-in"],
   run:async function(req, res, data) {
     // Login using creditentials
     if(data.username && data.password) {

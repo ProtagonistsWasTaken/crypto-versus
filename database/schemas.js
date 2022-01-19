@@ -1,7 +1,7 @@
-const bcrypt = require("bcrypt");
-
 const Mongoose = require("mongoose");
-Mongoose.connect(process.env["DB_URL"])
+Mongoose.connect(process.env["DB_URL"]).then( function(){
+      console.log("Connected to DB")
+    });
 
 // this schema handles all data in the "Salt" cluster
 const Salt = Mongoose.model("Salt", new Mongoose.Schema({
