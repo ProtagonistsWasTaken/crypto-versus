@@ -1,0 +1,19 @@
+[
+  {
+    "path":"/index",
+    "aliases":[
+      "/",
+      "/home",
+      "/index"
+    ],
+    "requiresAuth":true
+  },
+  {
+    "path":"/.well-known/security.txt",
+    "aliases":[
+      "/security",
+      "/.well-known/security"
+    ],
+    "requiresAuth":false
+  }
+]
