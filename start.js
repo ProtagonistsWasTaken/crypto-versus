@@ -1,6 +1,6 @@
 /* 
   CODE AND WHATNOT: Pywon#3170
-  TRUSTWORTY HELPER AND COMMENTER: addikted#6615
+  TRUSTWORTHY HELPER AND COMMENTER: addikted#6615
 */
 
 try {
@@ -79,6 +79,10 @@ const requestListener = function (req, res) {
             body:`path '${req.url}' should always be requested with method '${endpoints[i].method}'.`
           });
       }
+
+    // region preprocessors for public files
+
+    //endregion
 
     // the request isnt handled, try to find a page in the public folder
     if(!res.finished) {
