@@ -1,0 +1,75 @@
+body {
+    color:white;
+    background-color:black;
+    font-family: 'Roboto Mono', monospace;
+}
+
+form {
+    width:250px;
+    margin:auto;
+    margin-top:10%;
+    text-align:center;
+}
+
+form h1 {
+    margin-bottom:50px;
+}
+
+form input {
+    padding: 0.50rem;
+    padding-left: 0.75rem;
+    color:white;
+    background-color:#111111;
+    border-color:white;
+    border-width:0px;
+    border-radius:10px;
+    width:200px;
+    height:25px;
+    margin:5px;
+}
+
+form input:hover, form input:focus {
+    background-color:#222222;
+}
+
+form input:focus {
+    outline:1px solid white;
+}
+
+form p {
+    width:200px;
+    margin:40px auto 20px;
+}
+
+#submit {
+    cursor: pointer;
+    width:124px;
+    height:40px;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+#submit:active {
+    background-color:#333333;
+}
+
+#status_message {
+    border-radius:5px;
+    overflow:hidden;
+}
+
+#link {
+    color:teal;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+#link:hover {
+    color:teal;
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+#link:active {
+    color:red;
+}
