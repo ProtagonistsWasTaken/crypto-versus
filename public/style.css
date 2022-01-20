@@ -16,8 +16,8 @@ form h1 {
 }
 
 form input {
-    padding: 0.75rem;
-    padding-left: 1rem;
+    padding: 0.50rem;
+    padding-left: 0.75rem;
     color:white;
     background-color:#111111;
     border-color:white;
