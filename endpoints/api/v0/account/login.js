@@ -43,11 +43,11 @@ module.exports = {
       
       if(user === null) sendError(res, {code:401,
         message:"Account not found.",
-        body:`${data.username} doesn't exists.`
+        body:`${data.username ? data.username : "Account"} doesn't exists.`
       });
       else if(!user.keyEnabled) sendError(res, {code:403,
         message:"Api key disabled.",
-        body:`${user.username} does not have key enabled.`
+        body:`${user.username ? data.username : "Account"} does not have key enabled.`
       });
       else {
         // Invalidate previous tokens (if any)
