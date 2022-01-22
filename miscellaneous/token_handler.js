@@ -59,7 +59,7 @@ function Token(username, length = 32, lifetime = 300000) {
     enumerable:true,
     get:()=>{return ()=>{
       this.invalidate();
-      return Token.from(this);
+      return Token.from({user:this.user, value:this.value, lifetime:300000});
     }}
   });
 }
