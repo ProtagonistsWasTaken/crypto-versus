@@ -1,7 +1,7 @@
-const { Token } = require("../../../../miscellaneous/token_handler.js");
+const { Token } = require("../../../miscellaneous/token_handler.js");
 
 module.exports = {
-  urls:["api/v0/refresh-token", "api/v0/token/refresh"],
+  urls:["api/refresh-token", "api/token/refresh"],
   run:async function(req, res, data) {
     var token = Token.fromString(res, data.token);
     if(token) {

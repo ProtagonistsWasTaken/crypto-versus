@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../../database/schemas.js");
-const { Token, sendError } = require("../../../../miscellaneous");
+const { Salt, User } = require("../../../../../database/schemas.js");
+const { Token, sendError } = require("../../../../../miscellaneous");
 
 module.exports = {
   urls:["api/v0/edit-account", "api/v0/account/edit"],
