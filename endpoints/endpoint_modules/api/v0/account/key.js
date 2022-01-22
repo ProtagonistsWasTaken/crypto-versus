@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../database/schemas.js");
-const { Token, sendError } = require("../../miscellaneous");
+const { Salt, User } = require("../../../../../database/schemas.js");
+const { Token, sendError } = require("../../../../../miscellaneous");
 
 module.exports = {
-  urls:["api-key", "key", "api/key", "refresh-api-key", "refresh-key", "api/refresh-key"],
+  urls:["api/v0/key", "api/v0/refresh-key"],
   run:async function(req, res, data) {
     var token = Token.fromString(res, data.token);
 

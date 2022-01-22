@@ -1,22 +1,18 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../database/schemas.js");
-const { Token, Tokens, validateUserInfo, sendError } = require("../../miscellaneous");
+const { Salt, User } = require("../../../../../database/schemas.js");
+const { Token, Tokens, validateUserInfo, sendError } = require("../../../../../miscellaneous");
 
 module.exports = {
-  urls:["login","signin","sign-in", "account/login", "account/signin", "account/sign-in"],
+  urls:["api/v0/login","api/v0/signin","api/v0/sign-in", "api/v0/account/login", "api/v0/account/signin", "api/v0/account/sign-in"],
   run:async function(req, res, data) {
-    let newToken;
-    let token;
-    let user;
-    let salt;
-// Login using credentials
+    // Login using creditentials
     if(data.username && data.password) {
       if(validateUserInfo(res, data)) {
 
-        salt = await Salt.find();
-        const password = await bcrypt.hash(data.password, salt[0].val);
-        user = await User.findOne({username: data.username});
+        var salt = await Salt.find();
+        var password = await bcrypt.hash(data.password, salt[0].val);
+        var user = await User.findOne({username: data.username});
 
         if(user === null) sendError(res, {code:401,
           message:"Account not found.",
@@ -28,10 +24,10 @@ module.exports = {
         });
         else {
           // Invalidate previous tokens (if any)
-          token = Tokens.findOne({user: data.username});
+          var token = Tokens.findOne({user: data.username});
           if(token !== null) token.invalidate();
           // Generate a token
-          newToken = new Token(data.username, 32, 600000);
+          var newToken = new Token(data.username, 32, 600000);
           res.setHeader("user", newToken.user);
           res.setHeader("expire", newToken.lifetime);
           res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
@@ -41,25 +37,25 @@ module.exports = {
     }
     // Login using api key
     else if(data.key) {
-      salt = await Salt.find();
-      const key = await bcrypt.hash(data.key, salt[0].val);
-      user = await User.findOne({key});
-
+      var salt = await Salt.find();
+      var key = await bcrypt.hash(data.key, salt[0].val);
+      var user = await User.findOne({key});
+      
       if(user === null) sendError(res, {code:401,
         message:"Account not found.",
-        body:`${data.username} doesn't exists.`
+        body:`${data.username ? data.username : "Account"} doesn't exists.`
       });
       else if(!user.keyEnabled) sendError(res, {code:403,
         message:"Api key disabled.",
-        body:`${user.username} does not have key enabled.`
+        body:`${user.username ? data.username : "Account"} does not have key enabled.`
       });
       else {
         // Invalidate previous tokens (if any)
-        token = Tokens.findOne({user: user.username});
+        var token = Tokens.findOne({user: user.username});
         if(token !== null) token.invalidate();
 
         // Generate a token
-        newToken = new Token(user.username, 32, 600000);
+        var newToken = new Token(user.username, 32, 600000);
         res.setHeader("user", newToken.user);
         res.setHeader("expire", newToken.lifetime);
         res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);

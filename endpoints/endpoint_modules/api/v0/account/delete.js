@@ -1,9 +1,9 @@
 // this route handles all /delete requests
-const { User } = require("../../database/schemas.js");
-const { Token, sendError } =  require("../../miscellaneous");
+const { User } = require("../../../../../database/schemas.js");
+const { Token, sendError } =  require("../../../../../miscellaneous");
 
 module.exports = {
-  urls:["delete-account", "account/delete"],
+  urls:["api/v0/delete-account", "api/v0/account/delete"],
   run:async function(req, res, data) {
     var token = Token.fromString(res, data.token);
     

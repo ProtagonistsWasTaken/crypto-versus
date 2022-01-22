@@ -1,10 +1,10 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../../database/schemas.js");
-const { Token, validateUserInfo, sendError } = require("../../../../miscellaneous");
+const { Salt, User } = require("../../../database/schemas.js");
+const { Token, validateUserInfo, sendError } = require("../../../miscellaneous");
 
 module.exports = {
-  urls:["api/v0/signup", "api/v0/account/signup"],
+  urls:["api/signup", "api/account/signup"],
   run: async function(req, res, data) {
     if(validateUserInfo(res, data)) {
       var salt = await Salt.find();
