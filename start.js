@@ -108,7 +108,7 @@ const requestListener = function (req, res) {
 
 // start listening to requests ////////////////////////
 const server = http.createServer(requestListener);   //
-const PORT = process.env["PORT"] || 80;              //
+const PORT = process.env["PORT"] || 8081;              //
 //                                                   //
 server.listen(PORT, () => {                          //
   console.log(`Server is running on port ${PORT}`);  //
