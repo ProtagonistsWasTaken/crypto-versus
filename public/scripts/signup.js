@@ -26,8 +26,9 @@ function signup() {
 }
 
 document.addEventListener("visibilitychange", function() {
+    const msg = ["Crypto Versus | Sign Up (free and open source!)", "Crypto Versus | Sign Up (please?)", "Crypto Versus | Sign Up!!1111one!!!!11!!1!1!"];
     if (document.hidden) {
-        document.title = "Crypto Versus | sign up (please?)";
+        document.title = msg[Math.floor(Math.random() * msg.length)];
     } else {
         document.title = "Crypto Versus | sign up";
     }
