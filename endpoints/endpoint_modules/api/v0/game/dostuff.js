@@ -1,0 +1,10 @@
+const { Token } = require("../../../../../miscellaneous/token_handler.js");
+
+module.exports = {
+  urls:["api/v0/dostuff"],
+  run:async function(req, res, data) {
+    var token = Token.fromString(res, data.token);
+    if(token) res.end(`Successfully did stuff as ${token.user}`);
+  },
+  method:'POST'
+}

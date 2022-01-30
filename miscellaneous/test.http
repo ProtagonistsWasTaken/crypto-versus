@@ -1,0 +1,15 @@
+### log in
+POST http://localhost/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "new_username",
+  "password": "new_password"
+}
+
+
+### do something
+POST http://localhost/api/game/dostuff HTTP/1.1
+content-type: application/json
+
+{}

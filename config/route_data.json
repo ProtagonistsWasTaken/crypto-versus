@@ -1,0 +1,21 @@
+[
+  {
+    "path":"/login",
+    "aliases":[
+      "/",
+      "/home",
+      "/index"
+    ],
+    "auth" : {
+      "required" : false,
+      "redirect" : "/security"
+    }
+  },
+  {
+    "path":"/.well-known/security.txt",
+    "aliases":[
+      "/security",
+      "/.well-known/security"
+    ]
+  }
+]

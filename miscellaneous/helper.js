@@ -1,6 +1,6 @@
-const { Tokens } = require("./token_handler.js");
-const { Salt, User } = require("../database/schemas.js");
 const { sendError } = require("./error.js");
+const fs = require("fs");
+const path = require("path")
 
 function validateUserInfo(res, data) {
   // dont allow request if they didnt specify username and password
@@ -21,7 +21,7 @@ function validateUserInfo(res, data) {
   else
   {
     // list of allowed chars
-    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~/\\!?&$#*@";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~!?&$#";
     for(let i = 0; i < data.username.length; i++)
       if(!chars.includes(data.username[i].toUpperCase())) { // dont allow char if not in list
         sendError(res, {code:400,
@@ -51,4 +51,24 @@ function validateUserInfo(res, data) {
   }
 }
 
-module.exports = { validateUserInfo }
+// broken atm. 
+function findFile(root=__dirname, name, req, res, data,  targetExtension = "") {
+  try {
+    // try to send file with the same name as the request
+    res.end(fs.readFileSync(path.join(__dirname, root, name)));
+  } catch (e) {
+    try {
+      // try to send file with the same name as the request but with .html extension
+      res.end(fs.readFileSync(path.join(__dirname, root, name) + targetExtension));
+
+    } catch (e) {
+      sendError(res, {code:404,
+        message:"Not found.",
+        body:"This file is not available / not found"
+      })
+    }
+
+  }
+}
+
+module.exports = { validateUserInfo, findFile }
