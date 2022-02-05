@@ -4,6 +4,8 @@
 
 Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/1812820/Bitburner/)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Table of content
 
 Don't wanna scroll through all this?  
