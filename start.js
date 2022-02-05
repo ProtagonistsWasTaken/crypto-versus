@@ -30,7 +30,7 @@ const aliasJSON = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alia
 // when a request is made by a user
 const requestListener = function (req, res) {
   // region middleware stack
-  var data = "";
+  let data = "";
   req.on("data", d => {
     data += d.toString();
   });
@@ -63,8 +63,8 @@ const requestListener = function (req, res) {
     
     // loop through all routes
     for(let i = 0; i < endpoints.length; i++)
-      if(endpoints[i].urls.filter(url => req.url == "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
-        if(!endpoints[i].method || req.method == endpoints[i].method)
+      if(endpoints[i].urls.filter(url => req.url === "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
+        if(!endpoints[i].method || req.method === endpoints[i].method)
           try {await endpoints[i].run(req, res, data);break} 
           catch (e) {
             console.log(e);
@@ -108,9 +108,9 @@ const requestListener = function (req, res) {
 
 // start listening to requests ////////////////////////
 const server = http.createServer(requestListener);   //
-const PORT = process.env["PORT"] || 80;              //
+const PORT = process.env["PORT"] || 8081;            //
 //                                                   //
-server.listen(PORT, () => {                          //
+server.listen(PORT, () => {                 //
   console.log(`Server is running on port ${PORT}`);  //
 });                                                  //
 //                                                   //
