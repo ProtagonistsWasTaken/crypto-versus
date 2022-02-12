@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("../../../database/schemas.js");
-const { Token, sendError } = require("../../../miscellaneous");
+const { Token, Webhook, sendError } = require("../../../miscellaneous");
 
 module.exports = {
   urls:["api/edit-account", "api/account/edit"],
@@ -24,14 +24,31 @@ module.exports = {
         });
         return;
       }
+      else if(data.events.enabled && !data.events.ip && !user.events.ip) {
+        sendError(res, {code:417,
+          message:"Invalid data for account editing.",
+          body:"Cannot set events to true with a missing parameter ip"
+        });
+        return;
+      }
 
-      user.username = data.username ? data.username : user.username;
-      user.password = data.password ? await bcrypt.hash(data.password, salt[0].val) : user.password;
-      user.keyEnabled = data.keyEnabled !== undefined ? data.keyEnabled !== false : user.keyEnabled;
+      // Send events
+      if(user.events && user.events.enabled)
+        await Webhook.update(user);
+
+      user.username = typeof data.username === "string" ? data.username : user.username;
+      user.password = typeof data.password === "string" ? await bcrypt.hash(data.password, salt[0].val) : user.password;
+      user.keyEnabled = !!data.keyEnabled || user.keyEnabled;
+      user.events = user.events ? user.events : {};
+      user.events.enabled = !!data.events.enabled || user.events.enabled;
+      user.events.ip = data.events.ip ? data.events.ip : user.events.ip;
       await user.save();
       
       res.setHeader("user", user.username);
-      res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
+      res.setHeader("key", !!user.keyEnabled);
+      res.setHeader("events", !!user.events.enabled);
+      if(!!user.events.enabled)
+        res.setHeader("ip", user.events.ip);
       res.end("Account updated!");
     }
   },

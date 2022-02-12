@@ -1,8 +1,15 @@
-const LockedArray = function(from) {
-  var key = {};
-  var locked = false;
+"use strict";
 
-  var array = from instanceof Array ? Array.from(from) : [];
+const LockedArray = function(from) {
+  const key = Symbol();
+  let locked = false;
+
+  let array;
+  try {
+    array = Array.from(from);
+  } catch(e) {
+    array = [];
+  }
 
   Object.defineProperty(this, "key", {
     enumerable:true,
@@ -17,33 +24,36 @@ const LockedArray = function(from) {
 
   Object.defineProperty(this, "lock", {
     enumerable:true,
-    get:()=>{return ()=>{locked = true;}}
+    value:function lock(){locked = true},
+    writable:false
   });
 
   Object.defineProperty(this, "unlock", {
     enumerable:true,
-    get:()=>{return k=>{
+    value:function unlock(k) {
       if(k === key) locked = false;
       else throw new Error("Key is invalid.");
-    }}
+    },
+    writable:false
   });
 
   Object.defineProperty(this, "value", {
     enumerable:true,
-    get:()=>{return Array.from(array);}
+    get:()=>{return Array.from(array)}
   });
 
   Object.defineProperty(this, "add", {
     enumerable:true,
-    get:() => { return element => {
+    value:function add(element) {
       if(!locked) array.push(element);
       else throw new Error("Array is locked.");
-    }}
+    },
+    writable:false
   });
 
   Object.defineProperty(this, "remove", {
     enumerable:true,
-    get:()=>{return element=>{
+    value:function remove(element) {
       let index = array.indexOf(element);
       if(index < 0) {
         throw new Error("Passed value 'element' does not exist in the array.");
@@ -51,17 +61,19 @@ const LockedArray = function(from) {
       }
       if(!locked) array.splice(index, 1);
       else throw new Error("Array is locked.");
-    }}
+    },
+    writable:true
   });
     
   Object.defineProperty(this, "includes", {
     enumerable:true,
-    get:()=>{return element=>{return array.indexOf(element) >= 0}}
+    value:function includes(element) {return array.indexOf(element) >= 0},
+    writable:false
   });
 
   Object.defineProperty(this, "find", {
     enumerable:true,
-    get:()=>{return options=>{
+    value:function find(options) {
       var result = [];
       let p = Object.getOwnPropertyNames(options);
       for(var i = 0; i < this.value.length; i++) {
@@ -74,21 +86,23 @@ const LockedArray = function(from) {
         if(valid) result.push(this.value[i]);
       }
       return result;
-    }}
+    },
+    writable:false
   });
 
   Object.defineProperty(this, "findOne", {
     enumerable:true,
-    get:()=>{return options=>{
+    value:function findOne(options) {
       let filteredResults = this.find(options);
       return filteredResults.length > 0 ? filteredResults[0] : null;
-    }}
+    },
+    writable:false
   });
 }
 
 LockedArray.prototype.valueOf = function valueOf()
 {return this.value}
 LockedArray.prototype.toString = function toString()
-{return this.value.toString()}
+{return "[object LockedArray]"}
 
 module.exports = LockedArray;

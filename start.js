@@ -30,8 +30,8 @@ const aliasJSON = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alia
 // when a request is made by a user
 const requestListener = function (req, res) {
   // region middleware stack
-  var data = "";
-  req.on("data", d => {
+  let data = "";
+  req.on("data", d=>{
     data += d.toString();
   });
 

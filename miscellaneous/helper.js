@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path")
 
 function validateUserInfo(res, data) {
-  // dont allow request if they didnt specify username and password
+  // dont allow request if they didnt specify username or password
   if(!data.username || !data.password) {
     sendError(res, {code:400,
       message:"Missing data",

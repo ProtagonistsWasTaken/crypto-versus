@@ -17,5 +17,4 @@ const findFiles = (dir, files) => {
 }
 
 findFiles(path.join(__dirname, "./endpoint_modules"));
-console.log(fileExports);
 module.exports = fileExports;

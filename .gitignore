@@ -97,8 +97,14 @@ dist
 # FuseBox cache
 .fusebox/
 
+# IntelliJ platform files
+.idea/
+
 # DynamoDB Local files
 .dynamodb/
 
 # TernJS port file
 .tern-port
+
+# replit configuration file
+*.replit
