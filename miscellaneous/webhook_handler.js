@@ -1,5 +1,5 @@
 // this file (you guessed it) handles webhooks :O
-const handler = require("./https_handler.js");
+const handler = require("@protagonists/https");
 const { User } = require("../database/schemas.js");
 
 const Webhook = {
@@ -7,19 +7,13 @@ const Webhook = {
     return new Promise((resolve, reject)=>{
       if(!user instanceof User)
         reject("user must be an instance of Mongoose.Schema");
-      
+
       if(user.events.enabled)
         handler.Post({host:user.events.ip}, event, res => {
-          if(res.err) {
-            reject(res.err);
-          }
-          else if(res.status.code === 200) {
-            resolve();
-          }
-          else {
-            reject("Invalid");
-          }
-        },10000);
+          if(res.err) reject(res.err);
+          else if(res.status.code === 200) resolve();
+          else reject("Invalid");
+        });
       else {
         user.events.unhandled.push(event);
         user.save().then(resolve);
@@ -34,15 +28,9 @@ const Webhook = {
       for(const i = 0; i < user.events.unhandled.length; i++) {
         if(user.events.enabled)
           handler.Post({host:user.events.ip}, user.events.unhandled[i], res => {
-            if(res.err) {
-              reject(res.err);
-              return;
-            }
-            else if(res.status.code !== 200) {
-              reject("Invalid");
-              return;
-            }
-          },10000);
+            if(res.err) reject(res.err);
+            else if(res.status.code !== 200) reject("Invalid");
+          });
       }
 
       user.events.unhandled = [];
