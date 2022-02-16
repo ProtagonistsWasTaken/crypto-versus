@@ -1,4 +1,4 @@
-const { Token, Post, sendError, Webhook } = require("../../../miscellaneous");
+const { Token, sendError, Webhook } = require("../../../miscellaneous");
 const { User } = require("../../../database/schemas.js");
 
 module.exports = {
