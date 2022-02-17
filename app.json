@@ -1,0 +1,6 @@
+{
+  "name": "crypto_versus",
+  "description": "A unique multiplayer hacking game that you interact with through a simple, yet extensive HTTP API. Project still in the alpha phase!",
+  "repository": "https://github.com/ProtagonistsWasTaken/crypto_versus",
+  "keywords": ["node", "game", "app", "web", "js"]
+}
