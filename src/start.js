@@ -46,7 +46,7 @@ const requestListener = function (req, res) {
   //endregion
 
   req.on("end", async () => {
-    if(req.method == 'POST' || req.method == 'PUT') {
+    if(req.method === 'POST' || req.method === 'PUT') {
       // try to parse the user's data
       try{ data = JSON.parse(data) }
       catch(e) {
