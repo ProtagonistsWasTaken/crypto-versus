@@ -1,7 +1,7 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("../../../database/schemas.js");
-const { Token, Tokens, Webhook, validateUserInfo, sendError } = require("../../../miscellaneous");
+const { Token, Tokens, validateUserInfo, sendError } = require("../../../miscellaneous");
 
 module.exports = {
   urls:["api/login","api/signin","api/sign-in", "api/account/login", "api/account/signin", "api/account/sign-in"],
@@ -10,7 +10,7 @@ module.exports = {
     let token;
     let user;
     let salt;
-    // Login using credentials
+// Login using credentials
     if(data.username && data.password) {
       if(validateUserInfo(res, data)) {
 
@@ -30,21 +30,11 @@ module.exports = {
           // Invalidate previous tokens (if any)
           token = Tokens.findOne({user: data.username});
           if(token !== null) token.invalidate();
-
           // Generate a token
           newToken = new Token(data.username, 32, 600000);
-
-          // Send events
-          if(user.events && user.events.enabled)
-            await Webhook.update(user);
-
-          // Set headers
           res.setHeader("user", newToken.user);
           res.setHeader("expire", newToken.lifetime);
           res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
-          res.setHeader("events", !!user.events.enabled);
-          if(!!user.events.enabled)
-            res.setHeader("ip", user.events.ip);
           res.end(newToken.value);
         }
       }
@@ -57,7 +47,7 @@ module.exports = {
 
       if(user === null) sendError(res, {code:401,
         message:"Account not found.",
-        body:`Account doesn't exists.`
+        body:`${data.username} doesn't exists.`
       });
       else if(!user.keyEnabled) sendError(res, {code:403,
         message:"Api key disabled.",
@@ -70,18 +60,9 @@ module.exports = {
 
         // Generate a token
         newToken = new Token(user.username, 32, 600000);
-
-        // Send events
-        if(user.events && user.events.enabled)
-          await Webhook.update(user);
-
-        // Set headers
         res.setHeader("user", newToken.user);
         res.setHeader("expire", newToken.lifetime);
-        res.setHeader("key", !!user.keyEnabled);
-        res.setHeader("events", !!user.events.enabled);
-        if(!!user.events.enabled)
-          res.setHeader("ip", user.events.ip);
+        res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
         res.end(newToken.value);
       }
     }

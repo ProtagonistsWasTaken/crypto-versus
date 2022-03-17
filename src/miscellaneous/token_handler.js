@@ -15,7 +15,7 @@ function Token(username, length = 32, lifetime = 300000) {
   // this function (you guessed it) generates tokens
   Object.defineProperty(this, "generate", {
     enumerable:true,
-    get:()=>{return function generate(length) {
+    get:()=>{return length=>{
       var characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-";
       var token = [];
 
@@ -41,25 +41,25 @@ function Token(username, length = 32, lifetime = 300000) {
   Tokens.add(this);
   Tokens.lock();
 
+  setTimeout(()=>{
+    this.invalidate();
+  }, lifetime);
+
   Object.defineProperty(this, "invalidate", {
     enumerable:true,
-    get:()=>{return function invalidate() {
-      // In case the token was invalidated before the end of its lifetime
+    get:()=>{return ()=>{
       if(!Tokens.includes(this))return;
-
-      // Remove the token from the valid ones
       Tokens.unlock(key);
       Tokens.remove(this);
       Tokens.lock();
     }}
   });
-  setTimeout(this.invalidate, lifetime);
 
   Object.defineProperty(this, "refresh", {
     enumerable:true,
-    get:()=>{return function refresh() {
+    get:()=>{return ()=>{
       this.invalidate();
-      return new Token(this.user, this.value);
+      return Token.from({user:this.user, value:this.value, lifetime:300000});
     }}
   });
 }
@@ -67,9 +67,16 @@ function Token(username, length = 32, lifetime = 300000) {
 Token.prototype.toString = function toString()
 {return this.value}
 
+Object.defineProperty(Token, "from", {
+  enumerable:true,
+  get:()=>{return token=>{
+    return new Token(token.user, token.value.length, token.lifetime);
+  }}
+});
+
 Object.defineProperty(Token, "fromString", {
   enumerable:true,
-  get:()=>{return function fromString(res, tokenString) {
+  get:()=>{return (res, tokenString)=>{
     var token = Tokens.findOne({value: tokenString});
     if(!tokenString) {
       sendError(res, {code:400,
@@ -89,4 +96,4 @@ Object.defineProperty(Token, "fromString", {
   }}
 });
 
-module.exports = { Token, Tokens }
+module.exports = {Token, Tokens}

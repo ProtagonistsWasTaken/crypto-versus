@@ -12,34 +12,19 @@ module.exports = {
       var user = await User.findOne({username: data.username});
 
       if(user === null) {
-        if(!!data.eventsEnabled && !data.eventDomain)
-          return sendError(res, {code:400,
-            message:"Invalid user info",
-            body:"event domain is invalid"
-          });
-        
         // Create a new user
         user = new User({
           username: data.username,
           password: password,
-          keyEnabled: !!data.keyEnabled,
-          events:{
-            enabled: !!data.events.enabled,
-            ip: data.ip
-          }
+          keyEnabled: data.keyEnabled !== undefined ? data.keyEnabled : false
         });
         await user.save();
 
         // Generate a token
         var token = new Token(data.username, 32, 1200000);
-
-        // Set headers
         res.setHeader("user", token.user);
         res.setHeader("expire", token.lifetime);
-        res.setHeader("key", !!user.keyEnabled);
-        res.setHeader("events", !!user.events.enabled);
-        if(!!user.events.enabled)
-          res.setHeader("ip", user.events.ip);
+        res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
         res.end(token.value);
       }
       else sendError(res, {code:403,

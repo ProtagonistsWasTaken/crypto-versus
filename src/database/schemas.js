@@ -1,29 +1,13 @@
 const Mongoose = require("mongoose");
-Mongoose.connect(process.env["DB_URL"]).then( function(){console.log("Connected to DB")});
-
-class Event extends Mongoose.SchemaType {
-  constructor(key, options) {
-    super(key, options, "Event");
-  }
-
-  cast(val) {
-    if(typeof val != "object")
-      throw new Error("Cast value has to be of type 'object'");
-    
-    return val.data ? {
-      name: val.name ? val.name : "event",
-      data: val.data
-    } : {name: val.name ? val.name : "event"};
-  }
-}
-
-Mongoose.SchemaTypes.Event = Event;
+Mongoose.connect(process.env["DB_URL"]).then( function(){
+      console.log("Connected to DB")
+    });
 
 // this schema handles all data in the "Salt" cluster
 const Salt = Mongoose.model("Salt", new Mongoose.Schema({
   val: {
     type: String, // ensure the value is a String
-    required: [true,"invalid salt creation"] // salt is required
+    require: [true,"invalid salt creation"] // salt is required
   }
 }));
 
@@ -42,12 +26,7 @@ const User = Mongoose.model("User", new Mongoose.Schema({
     type: Boolean,
     value: false
   },
-  key: String,
-  events:{
-    enabled: Boolean,
-    ip: String,
-    unhandled: [Event]
-  }
+  key: String
 }));
 
 function setup() {
