@@ -21,6 +21,7 @@ const { setup } = require("./database/schemas.js");
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
+const middleware = require("./miscellaneous/middleware.js");
 
 const { PORT } = process.env
 
@@ -32,6 +33,7 @@ const aliasJSON = JSON.parse(fs.readFileSync(path.join(__dirname, "./config/alia
 
 // when a request is made by a user
 const requestListener = function (req, res) {
+  console.log(req.bepis + " " + req.cool);
   // region middleware stack
   let data = "";
   req.on("data", d => {
@@ -110,8 +112,9 @@ const requestListener = function (req, res) {
 
 
 // start listening to requests ////////////////////////
-const server = http.createServer(function (req, res) {
+const server = http.createServer(function (_req, _res) {
   try {
+    let {req, res} = middleware.run(_req, _res);  // call the middleware stack
     requestListener(req, res)
   } catch (e) {
     console.log(e);
