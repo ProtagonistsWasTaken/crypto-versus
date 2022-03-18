@@ -7,5 +7,5 @@
   "buildpacks":
     {
       "url": "heroku/nodejs"
-    },
+    }
 }
