@@ -67,7 +67,7 @@ const requestListener = function (req, res) {
     
     // loop through all routes
     for(let i = 0; i < endpoints.length; i++)
-      if(endpoints[i].urls.filter(url => req.url === "/" + url).length > 0) {  // if user's request matches a path, run the corresponding file
+      if(endpoints[i].urls.filter(url => req.url === "/" + url).length > 0) {  // if user's request matches a path, run the corresponding module
         if(!endpoints[i].method || req.method === endpoints[i].method)
           try {await endpoints[i].run(req, res, data);break} 
           catch (e) {
@@ -113,7 +113,8 @@ const requestListener = function (req, res) {
 // start listening to requests ////////////////////////
 const server = http.createServer(function (_req, _res) {
   try {
-    let {req, res} = middleware.run(_req, _res);  // call the middleware stack
+    let {req, res} = middleware.run(_req, _res)
+    // console.log({req, res})
     requestListener(req, res)
   } catch (e) {
     console.log(e);

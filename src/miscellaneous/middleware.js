@@ -4,15 +4,16 @@ let stack = []  // Stack of middleware
 
 // run the middleware stack
 function run(req, res) {
+    let _stack = stack.slice()  // copy the stack, so it can be modified in the loop
     function next() {
-        let fn = stack.shift()
+        let fn = _stack.shift()
         if (fn) {
             fn(req, res, next)
         }
     }
 
-    for (let i = 0; i < stack.length; i++) {
-        stack[i](req, res, next)
+    for (let i = 0; i < _stack.length; i++) {
+        _stack[i](req, res, next)
     }
 
     return {
@@ -21,8 +22,12 @@ function run(req, res) {
 }
 
 // Add middleware to stack
-function use(fn) {
-    stack.push(fn)
+function use(fn, index) {
+    if (typeof index === 'number') {
+        stack.splice(index, 0, fn)
+    } else {
+        stack.push(fn)
+    }
 }
 
 module.exports = {
