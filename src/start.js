@@ -1,6 +1,6 @@
 /* 
-  CODE AND WHATNOT: Pywon#3170
-  TRUSTWORTHY HELPER AND COMMENTER: addikted#6615
+  CODE AND WHATNOT: Pywon#3170 ("ThePywon" on github)
+  TRUSTWORTHY HELPER AND COMMENTER: addikted#6615 ("AW1534" on github)
 */
 
 try {
@@ -21,6 +21,9 @@ const { setup } = require("./database/schemas.js");
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
+
+const { PORT } = process.env
+
 // setup database schemas
 setup();
 
@@ -107,11 +110,21 @@ const requestListener = function (req, res) {
 
 
 // start listening to requests ////////////////////////
-const server = http.createServer(requestListener);   //
-const PORT = process.env["PORT"] || 8081;            //
-//                                                   //
-server.listen(PORT, () => {                 //
-  console.log(`Server is running on port ${PORT}`);  //
-});                                                  //
-//                                                   //
-module.exports = server; // for test.js              //
+const server = http.createServer(function (req, res) {
+  try {
+    requestListener(req, res)
+  } catch (e) {
+    console.log(e);
+    sendError(res, {code:500,
+      message:"Internal server error.",
+      body:"Internal server error."
+    });
+  }
+});
+
+server.listen(PORT || 80, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+// for automated testing
+module.exports = server;
