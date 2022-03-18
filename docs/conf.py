@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'crypto-versus'
-copyright = '2022 | Pywon, Addikted'
+copyright = '2022 - Pywon, Addikted'
 author = 'Pywon, Addikted'
 
 
