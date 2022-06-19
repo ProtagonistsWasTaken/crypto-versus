@@ -1,28 +1,34 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../database/schemas.js");
-const { Token, sendError } = require("../../../miscellaneous");
+const { Salt, User } = require("/src/database");
+const { generateToken, sendError, Errors } = require("/src/miscellaneous");
 
 module.exports = {
-  urls:["api/key", "api/refresh-api-key", "api/refresh-key", "api/key/refresh", "api/api-key/refresh"],
-  run:async function(req, res, data) {
-    var token = Token.fromString(res, data.token);
+  urls:[ "api/key", "api/refresh-api-key", "api/refresh-key",
+  "api/key/refresh", "api/api-key/refresh" ],
+  run: async function(req, res, data) {
+    // Get the user
+    const user = await User.findOne({ token: { value: data.token } })
 
-    if(token){
-      var user = await User.findOne({username: token.user});
+    // Check if token is invalid
+    if(!user) return sendError(res, Errors.invalid.token());
 
-      if(user.keyEnabled) {
-        var key = new Token(token.user, 32, 0);
-        var salt = await Salt.find();
-        var hashedKey = await bcrypt.hash(key.value, salt[0].val);
-        user.key = hashedKey;
-        await user.save();
-        res.end(key.value);
-      }
-      else sendError(res, {code:403,
-        message:"Api key disabled.",
-        body:`${token.user} does not have key enabled.`
-      });
-    }
+    // Check if user has api key disabled
+    if(!user.key.enabled)
+      return sendError(res, Errors.apiKeyDisabled());
+
+    // Create new key
+    const key = generateToken(32);
+    // Get the salt
+    const salt = await Salt.find();
+    // Hash the key
+    const hashedKey = await bcrypt.hash(key.value, salt[0].val);
+
+    // Update key values for the user
+    user.key.value = hashedKey;
+    await user.save();
+
+    // Response
+    res.end(key.value);
   },
   method:'POST'
 }

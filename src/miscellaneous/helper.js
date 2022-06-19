@@ -1,38 +1,22 @@
-const { sendError } = require("./error.js");
+const { sendError, Errors } = require("./error.js");
 const fs = require("fs");
 const path = require("path")
 
 function validateUserInfo(res, data) {
-  // dont allow request if they didnt specify username and password
+  // dont allow request if they didnt specify username or password
   if(!data.username || !data.password)
-    return sendError(res, {
-      code: 400,
-      message: "Missing data",
-      body: `${data.username ? "Password" : "Username"} is required.`
-    }) && false;
+    return sendError(res, Errors.missingParam(data.username ? "Password" : "Username")) && false;
   
   // Validate the parameters
   if(!isLegalString(data.username))
-    return sendError(res, {
-      code: 400,
-      message: "Illegal character",
-      body: `Username contains the following illegal character: "${data.username[i]}"`
-    }) && false;
+    return sendError(res, Errors.illegal.username(data.username[i])) && false;
 
   if(!isLegalString(data.password))
-    return sendError(res, {
-      code: 400,
-      message: "Illegal character",
-      body: `Password contains the following illegal character: "${data.username[i]}"`
-    }) && false;
+    return sendError(res, Errors.illegal.password(data.password[i])) && false;
 
   if(data.username.length < 1 || data.username.length > 32 ||
     data.password.length < 1 || data.password.length > 32)
-    return sendError(res, {
-      code: 400,
-      message: "Invalid length",
-      body: "Username and password must have a length of 1 to 32 characters."
-    }) && false;
+    return sendError(res, Errors.credentialsLength()) && false;
 
   return true;
 }
@@ -57,9 +41,10 @@ function findFile(root=__dirname, name, req, res, data,  targetExtension = "") {
       res.end(fs.readFileSync(path.join(__dirname, root, name) + targetExtension));
 
     } catch (e) {
-      sendError(res, {code:404,
-        message:"Not found.",
-        body:"This file is not available / not found"
+      sendError(res, {
+        code: 404,
+        message: "Not found.",
+        body: "This file is not available / not found"
       })
     }
 

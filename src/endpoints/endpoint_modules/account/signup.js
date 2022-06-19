@@ -1,7 +1,7 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
 const { Salt, User, userOptions } = require("/src/database");
-const { generateToken, validateUserInfo, sendError } = require("/src/miscellaneous");
+const { generateToken, validateUserInfo, sendError, Errors } = require("/src/miscellaneous");
 
 module.exports = {
   urls:[ "api/signup", "api/account/signup" ],
@@ -45,11 +45,7 @@ module.exports = {
       res.end(token);
     }
     // Account name taken
-    else sendError(res, {
-      code: 403,
-      message: "Account already exists.",
-      body: `${data.username} already exists.`
-    });
+    else sendError(res, Errors.unavailable.username(data.username));
   },
   method:'POST'
 }

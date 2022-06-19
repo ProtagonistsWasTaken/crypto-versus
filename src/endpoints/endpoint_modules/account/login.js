@@ -1,7 +1,7 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("/src/database");
-const { generateToken, validateUserInfo, sendError } = require("/src/miscellaneous");
+const { generateToken, validateUserInfo, sendError, Errors } = require("/src/miscellaneous");
 
 module.exports = {
   urls: [ "api/login", "api/signin", "api/sign-in",
@@ -21,30 +21,25 @@ module.exports = {
 
       // Check if the username or password is wrong
       if(user === null || user.password != password)
-        sendError(res, {
-          code: 403,
-          message: "Login unsuccessful.",
-          body: "Invalid credentials."
-        });
-      else {
-        // Generate a token
-        const token = generateToken(32);
+        return sendError(res, Errors.invalidCredentials);
+      
+      // Generate a token
+      const token = generateToken(32);
 
-        // Update token values for the user
-        user.token.value = token;
-        user.token.expire = Date.now() + 1000 * 60 * 10;
+      // Update token values for the user
+      user.token.value = token;
+      user.token.expire = Date.now() + 1000 * 60 * 10;
 
-        // Save changes
-        await user.save();
+      // Save changes
+      await user.save();
 
-        // Response headers
-        res.setHeader("user", user.username);
-        res.setHeader("expire", user.token.expire);
-        res.setHeader("key", user.key.enabled);
+      // Response headers
+      res.setHeader("user", user.username);
+      res.setHeader("expire", user.token.expire);
+      res.setHeader("key", user.key.enabled);
 
-        // Response
-        res.end(token);
-      }
+      // Response
+      res.end(token);
     }
     // Login using api key
     else if(data.key) {
@@ -58,18 +53,10 @@ module.exports = {
 
       // Check if user is invalid
       if(user === null)
-        sendError(res, {
-          code: 403,
-          message: "Login unsuccessful.",
-          body: "Invalid credentials."
-        });
+        sendError(res, Errors.invalid.credentials());
       // Check if this account does not have api key enabled
       else if(!user.key.enabled)
-        sendError(res, {
-          code: 403,
-          message: "Api key disabled.",
-          body: `Api key is disabled on this account.`
-        });
+        sendError(res, Errors.apiKeyDisabled());
       else {
         // Generate a token
         const token = generateToken(32);
@@ -90,11 +77,7 @@ module.exports = {
         res.end(token);
       }
     }
-    else sendError(res, {
-      code: 400,
-      message: "Login unsuccessful.",
-      body: "Missing login info."
-    });
+    else sendError(res, Errors.login());
   },
   method:'POST'
 }

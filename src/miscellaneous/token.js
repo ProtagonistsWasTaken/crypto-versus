@@ -9,4 +9,4 @@ function generateToken(length) {
   return token.join('');
 }
 
-module.exports = generateToken;
+module.exports = { generateToken };
