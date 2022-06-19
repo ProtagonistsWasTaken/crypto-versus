@@ -20,7 +20,7 @@ function signup() {
             statusMessage.style.borderLeft = "2px solid red";
         }
     });
-    xhr.open("POST", "/api/v0/signup");
+    xhr.open("POST", "/api/signup");
     xhr.send(JSON.stringify(data));
     return false;
 }

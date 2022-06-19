@@ -20,7 +20,7 @@ function login() {
             statusMessage.style.borderLeft = "2px solid red";
         }
     });
-    xhr.open("POST", "/api/v0/login");
+    xhr.open("POST", "/api/login");
     xhr.send(JSON.stringify(data));
     return false;
 }
