@@ -4,51 +4,46 @@ const path = require("path")
 
 function validateUserInfo(res, data) {
   // dont allow request if they didnt specify username and password
-  if(!data.username || !data.password) {
-    sendError(res, {code:400,
-      message:"Missing data",
-      body:`${data.username ? "Password" : "Username"} is required.`
-    });
-    return false;
-  }
-  else if(typeof data.username != "string" || typeof data.password != "string") {
-    sendError(res, {code:417,
-      message:"Invalid data",
-      body:`Unexpected type for ${typeof data.username != "string" ? "username" : "password"}.\nExpected String.`
-    });
-    return false;
-  }
-  else
-  {
-    // list of allowed chars
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~!?&$#";
-    for(let i = 0; i < data.username.length; i++)
-      if(!chars.includes(data.username[i].toUpperCase())) { // dont allow char if not in list
-        sendError(res, {code:400,
-          message:"Illegal character",
-          body:`Username contains the following illegal character: "${data.username[i]}"`
-        });
-        return false;
-      }
-    for(let i = 0; i < data.password.length; i++)
-      if(!chars.includes(data.password[i].toUpperCase())) {
-        sendError(res, {code:400,
-          message:"Illegal character",
-          body:`Password contains the following illegal character: "${data.password[i]}"`
-        });
-        return false;
-      }
+  if(!data.username || !data.password)
+    return sendError(res, {
+      code: 400,
+      message: "Missing data",
+      body: `${data.username ? "Password" : "Username"} is required.`
+    }) && false;
+  
+  // Validate the parameters
+  if(!isLegalString(data.username))
+    return sendError(res, {
+      code: 400,
+      message: "Illegal character",
+      body: `Username contains the following illegal character: "${data.username[i]}"`
+    }) && false;
 
-    if(data.username.length < 1 || data.username.length > 30 || data.password.length < 1 || data.password.length > 30) {
-      sendError(res, {code:400,
-        message:"Invalid length",
-        body:"Username and password must have a length of 1 to 30 characters."
-      });
+  if(!isLegalString(data.password))
+    return sendError(res, {
+      code: 400,
+      message: "Illegal character",
+      body: `Password contains the following illegal character: "${data.username[i]}"`
+    }) && false;
+
+  if(data.username.length < 1 || data.username.length > 32 ||
+    data.password.length < 1 || data.password.length > 32)
+    return sendError(res, {
+      code: 400,
+      message: "Invalid length",
+      body: "Username and password must have a length of 1 to 32 characters."
+    }) && false;
+
+  return true;
+}
+
+function isLegalString(str) {
+  // list of allowed chars
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~!?&$#";
+
+  for(let i = 0; i < str.length; i++)
+    if(!chars.includes(str[i].toUpperCase()))
       return false;
-    }
-
-    return true;
-  }
 }
 
 // broken atm. 

@@ -5,7 +5,7 @@ Mongoose.connect(process.env["DB_URL"]).then( function(){
 
 // this schema handles all data in the "Salt" cluster
 const Salt = Mongoose.model("Salt", new Mongoose.Schema({
-  val: {
+  value: {
     type: String, // ensure the value is a String
     require: [true,"invalid salt creation"] // salt is required
   }
@@ -34,7 +34,7 @@ const User = Mongoose.model("User", new Mongoose.Schema({
 function setup() {
   Salt.find().then(salt => {
     if(salt.length < 1)
-      new Salt({val: hash.genSalt(5)});
+      new Salt({value: hash.genSalt(5)});
   });
 }
 
