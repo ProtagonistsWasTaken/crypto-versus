@@ -7,6 +7,12 @@ function validateUserInfo(res, data) {
   if(!data.username || !data.password)
     return sendError(res, Errors.missingParam(data.username ? "Password" : "Username")) && false;
   
+  // Check if type matches (because of json convertion)
+  if(typeof data.username !== "string")
+    return sendError(res, Errors.invalid.paramType("username", "string")) && false;
+  if(typeof data.password !== "string")
+    return sendError(res, Errors.invalid.paramType("password", "string")) && false;
+
   // Validate the parameters
   if(!isLegalString(data.username))
     return sendError(res, Errors.illegal.username(data.username[i])) && false;

@@ -7,7 +7,7 @@ module.exports = {
   "api/key/refresh", "api/api-key/refresh" ],
   run: async function(req, res, data) {
     // Get the user
-    const user = await User.findOne({ token: { value: data.token } })
+    const user = await User.findOne({ token: { value: data.token } });
 
     // Check if token is invalid
     if(!user) return sendError(res, Errors.invalid.token());
@@ -21,7 +21,7 @@ module.exports = {
     // Get the salt
     const salt = await Salt.find();
     // Hash the key
-    const hashedKey = await bcrypt.hash(key.value, salt[0].val);
+    const hashedKey = await bcrypt.hash(key.value, salt[0].value);
 
     // Update key values for the user
     user.key.value = hashedKey;

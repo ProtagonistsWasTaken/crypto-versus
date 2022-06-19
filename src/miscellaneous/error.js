@@ -56,6 +56,11 @@ const Errors = {
       code: 403,
       message: "Request unsuccessful.",
       body: "Invalid token."
+    }},
+    paramType: (name, type) => { return {
+      code: 403,
+      message: "Invalid value type",
+      body: `Invalid value for parameter '${name}', expected ${type}`
     }}
   },
   unavailable: {

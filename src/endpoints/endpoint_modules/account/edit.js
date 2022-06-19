@@ -1,39 +1,40 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../database/schemas.js");
-const { Token, sendError } = require("../../../miscellaneous");
+const { Salt, User } = require("/src/database/schemas.js");
+const { sendError, Errors } = require("/src/miscellaneous/error");
 
 module.exports = {
-  urls:["api/edit-account", "api/account/edit"],
-  run:async function(req, res, data) {
-    var token = Token.fromString(res, data.token);
-    if(token) {
-      var salt = await Salt.find();
-      var user = await User.findOne({username: token.user});
+  urls: [ "api/edit-account", "api/account/edit" ],
+  run: async function(req, res, data) {
+    // Get the salt
+    const salt = await Salt.find();
+    // Get the user
+    const user = User.findOne({ token: { value: data.token } });
 
-      if((data.username && typeof data.username != "string") || (data.password && typeof data.password != "string")) {
-        sendError(res, {code:417,
-          message:"Invalid data for account editing.",
-          body:`Unexpected type for ${data.username ? "username" : "password"}.\nExpected String.`
-        });
-        return;
-      }
-      else if(data.keyEnabled !== undefined && typeof data.keyEnabled != "boolean") {
-        sendError(res, {code:417,
-          message:"Invalid data for account editing.",
-          body:"Unexpected type for keyEnabled.\nExpected Boolean."
-        });
-        return;
-      }
+    // Check if token is invalid
+    if(!user) return sendError(res, Errors.invalid.token());
 
-      user.username = data.username ? data.username : user.username;
-      user.password = data.password ? await bcrypt.hash(data.password, salt[0].val) : user.password;
-      user.keyEnabled = data.keyEnabled !== undefined ? data.keyEnabled !== false : user.keyEnabled;
-      await user.save();
+    // Make sure all data is valid
+    if(data.username && typeof data.username != "string")
+      return sendError(res, Errors.invalid.paramType("username", "string"));
+    if(data.password && typeof data.password != "string")
+      return sendError(res, Errors.invalid.paramType("password", "string"));
+    if(data.keyEnabled !== undefined && typeof data.keyEnabled != "boolean")
+      return sendError(res, Errors.invalid.paramType("keyEnabled", "boolean"));
+
+    // Change the values for user
+    user.username = data.username ? data.username : user.username;
+    user.password = data.password ? await bcrypt.hash(data.password, salt[0].val) : user.password;
+    user.key.enabled = data.keyEnabled !== undefined ? data.keyEnabled : user.key.enabled;
+    
+    // Save changes
+    await user.save();
       
-      res.setHeader("user", user.username);
-      res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
-      res.end("Account updated!");
-    }
+    // Response headers
+    res.setHeader("user", user.username);
+    res.setHeader("key", user.key.enabled);
+
+    // Response
+    res.end("Account updated!");
   },
   method:'POST'
 }

@@ -27,7 +27,7 @@ module.exports = {
         username: data.username,
         password: password,
         key: {
-          enabled: data.keyEnabled === "true"
+          enabled: data.keyEnabled
         },
         token: {
           value: token,
