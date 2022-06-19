@@ -1,4 +1,4 @@
-const { Token } = require("../../../miscellaneous/token_handler.js");
+const { Token } = require("../../../miscellaneous/token.js");
 
 module.exports = {
   urls:["api/dostuff"],
