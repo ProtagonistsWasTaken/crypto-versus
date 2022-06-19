@@ -1,35 +1,44 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../database/schemas.js");
-const { Token, validateUserInfo, sendError } = require("../../../miscellaneous");
+const { Salt, User } = require("/src/database/mongodbSchemas.js");
+const userSchema = require("/src/database/schemas.js");
+const { generateToken, validateUserInfo, sendError } = require("/src/miscellaneous");
 
 module.exports = {
   urls:["api/signup", "api/account/signup"],
   run: async function(req, res, data) {
     if(validateUserInfo(res, data)) {
-      var salt = await Salt.find();
-      var password = await bcrypt.hash(data.password, salt[0].val);
-      var user = await User.findOne({username: data.username});
+      const salt = await Salt.find();
+      const password = await bcrypt.hash(data.password, salt[0].val);
+      const user = await User.findOne({username: data.username});
 
       if(user === null) {
+        // Generate a token
+        const token = generateToken(32);
+
         // Create a new user
-        user = new User({
+        user = new User(userSchema({
           username: data.username,
           password: password,
-          keyEnabled: data.keyEnabled !== undefined ? data.keyEnabled : false
-        });
+          key: {
+            enabled: data.keyEnabled === "true"
+          },
+          token: {
+            value: token,
+            expire: Date.now() + 1000 * 60 * 20
+          }
+        }));
         await user.save();
-
-        // Generate a token
-        var token = new Token(data.username, 32, 1200000);
-        res.setHeader("user", token.user);
-        res.setHeader("expire", token.lifetime);
-        res.setHeader("key", user.keyEnabled ? user.keyEnabled : false);
-        res.end(token.value);
+        
+        res.setHeader("user", user.username);
+        res.setHeader("expire", user.token.expire);
+        res.setHeader("key", user.key.enabled);
+        res.end(token);
       }
-      else sendError(res, {code:403,
-        message:"Account already exists.",
-        body:`${data.username} already exists.`
+      else sendError(res, {
+        code: 403,
+        message: "Account already exists.",
+        body: `${data.username} already exists.`
       });
     }
   },
