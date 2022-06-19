@@ -19,4 +19,4 @@ userOptions.setDefaults({
   }
 });
 
-module.exports = userOptions;
+module.exports = { userOptions };

@@ -1,7 +1,6 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("/src/database/mongodbSchemas.js");
-const userSchema = require("/src/database/schemas.js");
+const { Salt, User, userOptions } = require("/src/database");
 const { generateToken, validateUserInfo, sendError } = require("/src/miscellaneous");
 
 module.exports = {
@@ -17,7 +16,7 @@ module.exports = {
         const token = generateToken(32);
 
         // Create a new user
-        user = new User(userSchema({
+        user = new User(userOptions({
           username: data.username,
           password: password,
           key: {
