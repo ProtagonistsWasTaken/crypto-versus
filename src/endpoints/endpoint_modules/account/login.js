@@ -1,7 +1,7 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("/src/database/mongodbSchemas");
-const { generateToken, validateUserInfo, sendError, Errors } = require("/src/miscellaneous");
+const { Salt, User } = require("../../../database/mongodbSchemas");
+const { generateToken, validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
 
 module.exports = {
   urls: [ "api/login", "api/signin", "api/sign-in",

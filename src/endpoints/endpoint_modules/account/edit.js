@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("/src/database/mongodbSchemas.js");
-const { sendError, Errors } = require("/src/miscellaneous/error");
+const { Salt, User } = require("../../../database/mongodbSchemas.js");
+const { sendError, Errors } = require("../../../miscellaneous/error");
 
 module.exports = {
   urls: [ "api/edit-account", "api/account/edit" ],

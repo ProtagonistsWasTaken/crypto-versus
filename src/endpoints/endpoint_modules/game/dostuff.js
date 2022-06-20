@@ -1,5 +1,5 @@
-const { User } = require("/src/database/mongodbSchemas");
-const { sendError, Errors } = require("/src/miscellaneous/error");
+const { User } = require("../../../database/mongodbSchemas");
+const { sendError, Errors } = require("../../../miscellaneous/error");
 const { Post } = require("@protagonists/https");
 
 module.exports = {

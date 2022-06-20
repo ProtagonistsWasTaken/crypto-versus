@@ -1,7 +1,7 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
-const { Salt, User, userOptions } = require("/src/database");
-const { generateToken, validateUserInfo, sendError, Errors } = require("/src/miscellaneous");
+const { Salt, User, userOptions } = require("../../../database");
+const { generateToken, validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
 
 module.exports = {
   urls:[ "api/signup", "api/account/signup" ],

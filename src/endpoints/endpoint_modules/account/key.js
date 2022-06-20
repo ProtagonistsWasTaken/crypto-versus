@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("/src/database/mongodbSchemas");
-const { generateToken, sendError, Errors } = require("/src/miscellaneous");
+const { Salt, User } = require("../../../database/mongodbSchemas");
+const { generateToken, sendError, Errors } = require("../../../miscellaneous");
 
 module.exports = {
   urls:[ "api/key", "api/refresh-api-key", "api/refresh-key",

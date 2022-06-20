@@ -1,6 +1,6 @@
 // this route handles all /delete requests
-const { User } = require("/src/database/mongodbSchemas.js");
-const { sendError, Errors } =  require("/src/miscellaneous/error");
+const { User } = require("../../../database/mongodbSchemas.js");
+const { sendError, Errors } =  require("../../../miscellaneous/error");
 
 module.exports = {
   urls: [ "api/delete-account", "api/account/delete" ],

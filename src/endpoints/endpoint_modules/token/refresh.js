@@ -1,5 +1,5 @@
-const { User } = require("/src/database/mongodbSchemas");
-const { generateToken, sendError, Errors } = require("/src/miscellaneous");
+const { User } = require("../../../database/mongodbSchemas");
+const { generateToken, sendError, Errors } = require("../../../miscellaneous");
 
 module.exports = {
   urls: [ "api/refresh-token", "api/token/refresh", "api/refresh" ],
