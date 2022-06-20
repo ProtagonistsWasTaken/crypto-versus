@@ -26,7 +26,7 @@ describe ("Routes", function() {
     describe('POST /login (with no data)', function() {
         it('should return 400 status code', function(done) {
             chai.request(app)
-                .post('/login')
+                .post('/api/login')
                 .end(function(err, res) {
                     res.should.have.status(400)
                     done()
@@ -36,7 +36,7 @@ describe ("Routes", function() {
     describe("GET /signup (wrong method)", function () {
         it("should return a 405 status code", function (done) {
             chai.request(app)
-                .get("/signup")
+                .get("/api/signup")
                 .end(function(err, res) {
                     res.should.have.status(405)
                     done()

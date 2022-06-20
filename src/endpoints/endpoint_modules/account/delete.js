@@ -1,5 +1,5 @@
 // this route handles all /delete requests
-const { User } = require("/src/database/schemas.js");
+const { User } = require("/src/database/mongodbSchemas.js");
 const { sendError, Errors } =  require("/src/miscellaneous/error");
 
 module.exports = {

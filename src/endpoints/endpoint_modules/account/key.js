@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("/src/database");
+const { Salt, User } = require("/src/database/mongodbSchemas");
 const { generateToken, sendError, Errors } = require("/src/miscellaneous");
 
 module.exports = {
