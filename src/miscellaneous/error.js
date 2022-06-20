@@ -79,7 +79,19 @@ const Errors = {
     code: 400,
     message: "Login unsuccessful.",
     body: "Missing login info."
-  }}
+  }},
+  callback: {
+    unreachable: () => { return {
+      code: 400,
+      message: "Callback unreachable",
+      body: "An error occured while trying to send a request to the passed ip adress"
+    }},
+    failure: () => { return {
+      code: 424,
+      message: "Callback failure",
+      body: "The passed ip adress did not respond with code 200"
+    }}
+  }
 }
 
 module.exports = { sendError, Errors };

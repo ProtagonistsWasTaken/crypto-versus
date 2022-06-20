@@ -1,10 +1,22 @@
-const { Token } = require("../../../miscellaneous/token.js");
+const { User } = require("/src/database/mongodbSchemas");
+const { sendError, Errors } = require("/src/miscellaneous/error");
+const { Post } = require("@protagonists/https");
 
 module.exports = {
-  urls:["api/dostuff"],
-  run:async function(req, res, data) {
-    var token = Token.fromString(res, data.token);
-    if(token) res.end(`Successfully did stuff as ${token.user}`);
+  urls: [ "api/dostuff" ],
+  run: async function(req, res, data) {
+    const user = User.findOne({ token: { value: data.token } });
+
+    if(!user) return sendError(res, Errors.invalid.token());
+
+    const response = await Post({ host: data.ip + ":443" }, "Ping!");
+
+    if(response.err) return sendError(res, Errors.callback.unreachable());
+
+    if(response.status.code != 200)
+      return sendError(res, Errors.callback.failure());
+
+    res.end(`Successfully did stuff as ${user.username}`);
   },
   method:'POST'
 }
