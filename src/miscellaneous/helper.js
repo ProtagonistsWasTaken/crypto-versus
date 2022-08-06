@@ -14,11 +14,13 @@ function validateUserInfo(res, data) {
     return sendError(res, Errors.invalid.paramType("password", "string")) && false;
 
   // Validate the parameters
-  if(!isLegalString(data.username))
-    return sendError(res, Errors.illegal.username(data.username[i])) && false;
+  const nameChar = illegalChar(data.username);
 
-  if(!isLegalString(data.password))
-    return sendError(res, Errors.illegal.password(data.password[i])) && false;
+  if(nameChar) return sendError(res, Errors.illegal.username(nameChar)) && false;
+
+  const passChar = illegalChar(data.password);
+
+  if(passChar) return sendError(res, Errors.illegal.password(passChar)) && false;
 
   if(data.username.length < 1 || data.username.length > 32 ||
     data.password.length < 1 || data.password.length > 32)
@@ -27,13 +29,13 @@ function validateUserInfo(res, data) {
   return true;
 }
 
-function isLegalString(str) {
+function illegalChar(str) {
   // list of allowed chars
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_.+<>(){}[]|:;~!?&$#";
 
   for(let i = 0; i < str.length; i++)
     if(!chars.includes(str[i].toUpperCase()))
-      return false;
+      return str[i];
 }
 
 // broken atm. 

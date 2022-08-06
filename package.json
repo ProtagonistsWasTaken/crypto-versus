@@ -4,6 +4,8 @@
   "description": "## A Multiplayer Versus Hacking Simulation",
   "main": "src/start.js",
   "dependencies": {
+    "@protagonists/coerce": "^1.0.6",
+    "@protagonists/https": "^1.0.2",
     "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "glob": "^7.2.0",

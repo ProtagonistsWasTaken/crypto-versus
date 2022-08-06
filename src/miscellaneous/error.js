@@ -59,8 +59,8 @@ const Errors = {
     }},
     paramType: (name, type) => { return {
       code: 403,
-      message: "Invalid value type",
-      body: `Invalid value for parameter '${name}', expected ${type}`
+      message: "Invalid value type.",
+      body: `Invalid value for parameter '${name}', expected ${type}.`
     }}
   },
   unavailable: {
@@ -80,6 +80,23 @@ const Errors = {
     message: "Login unsuccessful.",
     body: "Missing login info."
   }},
+  expired: () => { return {
+    code: 403,
+    message: "Request unsuccessful.",
+    body: "Token is expired."
+  }},
+  database: {
+    duplicateUser: (name) => { return {
+      code: 409,
+      message: "Database conflict.",
+      body: `The username ${name} is already taken.`
+    }},
+    inexistantUser: () => { return {
+      code: 410,
+      message: "Gone",
+      body: "The requested account no longer exists."
+    }}
+  },
   callback: {
     unreachable: () => { return {
       code: 400,

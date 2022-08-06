@@ -1,4 +1,4 @@
-const { User } = require("../../../database/mongodbSchemas");
+const { User } = require("../../../database/mongodb");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 const { Post } = require("@protagonists/https");
 

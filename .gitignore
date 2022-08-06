@@ -107,3 +107,7 @@ dist
 .idea/
 *.breakpoints
 /docs/_build/
+
+# Environnement file
+
+.env

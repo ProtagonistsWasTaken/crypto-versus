@@ -3,20 +3,25 @@ const { Schema } = require("@protagonists/coerce");
 const userOptions = new Schema({
   username: String,
   password: String,
-  key: {
-    value: String,
-    enabled: Boolean
-  },
-  token: {
-    value: String,
-    expire: Date
-  }
+  key: String,
+  keyEnabled: Boolean,
+  token: String,
+  expire: Date
 });
 userOptions.setDefaults({
-  key: {
-    value: "",
-    enabled: false
-  }
+  key: '',
+  keyEnabled: false
 });
 
-module.exports = { userOptions };
+const editData = new Schema({
+  username: String,
+  password: String,
+  keyEnabled: Boolean
+});
+editData.setDefaults({
+  username: '',
+  password: '',
+  keyEnabled: false
+});
+
+module.exports = { userOptions, editData };
