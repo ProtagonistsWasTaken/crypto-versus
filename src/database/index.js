@@ -1,4 +1,4 @@
 module.exports = {
-  ...require("./mongodbSchemas"),
+  ...require("./mongodb"),
   ...require("./schemas")
 };

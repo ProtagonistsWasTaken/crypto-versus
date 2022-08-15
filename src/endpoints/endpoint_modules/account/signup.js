@@ -11,9 +11,9 @@ module.exports = {
     if(!validateUserInfo(res, data)) return;
 
     // Get the salt
-    const salt = await Salt.find();
+    const salt = await Salt.findOne();
     // Hash the password
-    const password = await bcrypt.hash(data.password, salt[0].value);
+    const password = await bcrypt.hash(data.password, salt.value);
     // Find the user corresponding to the username (if any)
     const user = await User.findOne({username: data.username});
 
@@ -23,23 +23,19 @@ module.exports = {
       const token = generateToken(32);
 
       // Create a new user
-      user = new User(userOptions({
+      const newUser = new User(userOptions({
         username: data.username,
         password: password,
-        key: {
-          enabled: data.keyEnabled
-        },
-        token: {
-          value: token,
-          expire: Date.now() + 1000 * 60 * 20
-        }
+        keyEnabled: data.keyEnabled,
+        token, expire: Date.now() + 1000 * 60 * 20
       }));
-      await user.save();
+      try { await newUser.save() }
+      catch(e) { return sendError(res, Errors.database.duplicateUser(data.username)) }
         
       // Response headers
-      res.setHeader("user", user.username);
-      res.setHeader("expire", user.token.expire);
-      res.setHeader("key", user.key.enabled);
+      res.setHeader("user", newUser.username);
+      res.setHeader("expire", newUser.expire);
+      res.setHeader("keyEnabled", newUser.keyEnabled);
 
       // Response
       res.end(token);

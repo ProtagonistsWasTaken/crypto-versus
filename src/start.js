@@ -17,7 +17,7 @@ const endpoints = require("./endpoints");
 
 // other important imports
 const { sendError } = require("./miscellaneous/error.js");
-const { setup } = require("./database/schemas.js");
+const { setup } = require("./database/mongodb.js");
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");

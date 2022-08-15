@@ -1,6 +1,6 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../database/mongodbSchemas");
+const { Salt, User } = require("../../../database/mongodb");
 const { generateToken, validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
 
 module.exports = {
@@ -13,30 +13,30 @@ module.exports = {
       if(!validateUserInfo(res, data)) return;
 
       // Get the salt
-      const salt = await Salt.find();
+      const salt = await Salt.findOne();
       // Hash the password
-      const password = await bcrypt.hash(data.password, salt[0].value);
+      const password = await bcrypt.hash(data.password, salt.value);
       // Get the user
       const user = await User.findOne({username: data.username});
 
       // Check if the username or password is wrong
       if(user === null || user.password != password)
-        return sendError(res, Errors.invalidCredentials);
+        return sendError(res, Errors.invalid.credentials());
       
       // Generate a token
       const token = generateToken(32);
 
       // Update token values for the user
-      user.token.value = token;
-      user.token.expire = Date.now() + 1000 * 60 * 10;
+      user.token = token;
+      user.expire = Date.now() + 1000 * 60 * 10;
 
       // Save changes
       await user.save();
 
       // Response headers
       res.setHeader("user", user.username);
-      res.setHeader("expire", user.token.expire);
-      res.setHeader("key", user.key.enabled);
+      res.setHeader("expire", user.expire);
+      res.setHeader("keyEnabled", user.keyEnabled);
 
       // Response
       res.end(token);
@@ -45,33 +45,33 @@ module.exports = {
     else if(data.key) {
 
       // Get the salt
-      const salt = await Salt.find();
+      const salt = await Salt.findOne();
       // Hash the key
-      const key = await bcrypt.hash(data.key, salt[0].value);
+      const key = await bcrypt.hash(data.key, salt.value);
       // Get the user
-      const user = await User.findOne({ key: { value: key } });
+      const user = await User.findOne({ key });
 
       // Check if user is invalid
       if(user === null)
         sendError(res, Errors.invalid.credentials());
       // Check if this account does not have api key enabled
-      else if(!user.key.enabled)
+      else if(!user.keyEnabled)
         sendError(res, Errors.apiKeyDisabled());
       else {
         // Generate a token
         const token = generateToken(32);
 
         // Update token values for the user
-        user.token.value = token;
-        user.token.expire = Date.now() + 1000 * 60 * 10;
+        user.token = token;
+        user.expire = Date.now() + 1000 * 60 * 10;
 
         // Save changes
         await user.save();
 
         // Response headers
         res.setHeader("user", user.username);
-        res.setHeader("expire", user.token.expire);
-        res.setHeader("key", user.key.enabled);
+        res.setHeader("expire", user.expire);
+        res.setHeader("keyEnabled", user.keyEnabled);
 
         // Response
         res.end(token);
