@@ -1,6 +1,6 @@
 const { User } = require("../../../database/mongodb");
 const { sendError, Errors } = require("../../../miscellaneous/error");
-const { Post } = require("@protagonists/https");
+const { Post } = require("@protagonists/request")();
 
 module.exports = {
   urls: [ "api/dostuff" ],
