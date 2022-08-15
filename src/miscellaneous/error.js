@@ -1,11 +1,12 @@
 // Imports
-const { Schema, SchemaTypes } = require("@protagonists/coerce");
+const { Schema } = require("@protagonists/coerce");
+const { StringType, IntRange } = require("@protagonists/coerce-basics");
 
 // Create 'Options' Schema
 const Options = new Schema({
-  code: SchemaTypes.IntRange(100, 599),
-  message: String,
-  body: String
+  code: IntRange(100, 599),
+  message: StringType,
+  body: StringType
 });
 // Create placeholder values
 Options.setDefaults({
