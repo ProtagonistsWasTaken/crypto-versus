@@ -1,4 +1,5 @@
 const Mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 Mongoose.connect(process.env["DB_URL"]).then( function(){
   console.log("Connected to DB")
 });
@@ -22,20 +23,24 @@ const User = Mongoose.model("User", new Mongoose.Schema({
     type: String, // ensure the password is a String. this should be hashed by bcrypt
     required: [true,"password is required"] // password is required
   },
+  key:  {
+    type: String,
+    value: "Empty"
+  },
   keyEnabled: {
     type: Boolean,
     value: false
   },
-  key: String,
   token: String,
-  latestTimestamp: Date
+  expire: Date
 }));
 
-function setup() {
-  Salt.find().then(salt => {
-    if(salt.length < 1)
-      new Salt({value: hash.genSalt(5)});
-  });
+async function setup() {
+  const salt = await Salt.find()
+  if(salt.length < 1) {
+    const newSalt = new Salt({value: await bcrypt.genSalt(5)});
+    await newSalt.save();
+  }
 }
 
 module.exports = { setup, Salt, User };
