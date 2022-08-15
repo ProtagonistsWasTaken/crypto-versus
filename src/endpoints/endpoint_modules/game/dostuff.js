@@ -5,11 +5,11 @@ const { Post } = require("@protagonists/https");
 module.exports = {
   urls: [ "api/dostuff" ],
   run: async function(req, res, data) {
-    const user = User.findOne({ token: { value: data.token } });
+    const user = User.findOne({ token: data.token });
 
     if(!user) return sendError(res, Errors.invalid.token());
 
-    const response = await Post({ host: data.ip + ":443" }, "Ping!");
+    const response = await Post({ host: data.eventDomain }, "Ping!");
 
     if(response.err) return sendError(res, Errors.callback.unreachable());
 

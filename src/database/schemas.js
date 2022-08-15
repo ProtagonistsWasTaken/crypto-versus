@@ -1,12 +1,13 @@
 const { Schema } = require("@protagonists/coerce");
+const { StringType, BooleanType, DateType } = require("@protagonists/coerce-basics");
 
 const userOptions = new Schema({
-  username: String,
-  password: String,
-  key: String,
-  keyEnabled: Boolean,
-  token: String,
-  expire: Date
+  username: StringType,
+  password: StringType,
+  key: StringType,
+  keyEnabled: BooleanType,
+  token: StringType,
+  expire: DateType
 });
 userOptions.setDefaults({
   key: '',
@@ -14,9 +15,9 @@ userOptions.setDefaults({
 });
 
 const editData = new Schema({
-  username: String,
-  password: String,
-  keyEnabled: Boolean
+  username: StringType,
+  password: StringType,
+  keyEnabled: BooleanType
 });
 editData.setDefaults({
   username: '',
