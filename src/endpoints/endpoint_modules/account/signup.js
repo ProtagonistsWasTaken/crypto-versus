@@ -1,7 +1,8 @@
 // this route handles all /signup requests
 const bcrypt = require("bcrypt");
 const { Salt, User, userOptions } = require("../../../database");
-const { generateToken, validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
+const { validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
+const uuid = require("uuid");
 
 module.exports = {
   urls:[ "api/signup", "api/account/signup" ],
@@ -20,7 +21,7 @@ module.exports = {
     // Check if that username is not taken
     if(user === null) {
       // Generate a token
-      const token = generateToken(32);
+      const token = uuid.v4();
 
       // Create a new user
       const newUser = new User(userOptions({

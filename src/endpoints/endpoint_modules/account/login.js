@@ -1,7 +1,8 @@
 // this route handles all /login requests
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("../../../database/mongodb");
-const { generateToken, validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
+const { validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
+const uuid = require("uuid");
 
 module.exports = {
   urls: [ "api/login", "api/signin", "api/sign-in",
@@ -24,7 +25,7 @@ module.exports = {
         return sendError(res, Errors.invalid.credentials());
       
       // Generate a token
-      const token = generateToken(32);
+      const token = uuid.v4();
 
       // Update token values for the user
       user.token = token;

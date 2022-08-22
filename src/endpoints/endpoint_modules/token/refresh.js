@@ -1,5 +1,6 @@
 const { User } = require("../../../database/mongodb");
-const { generateToken, sendError, Errors } = require("../../../miscellaneous");
+const { sendError, Errors } = require("../../../miscellaneous");
+const uuid = require("uuid");
 
 module.exports = {
   urls: [ "api/refresh-token", "api/token/refresh", "api/refresh" ],
@@ -14,7 +15,7 @@ module.exports = {
     if(user.expire < Date.now()) return sendError(res, Errors.expired());
 
     // Generate new token
-    const token = generateToken(32);
+    const token = uuid.v4();
 
     // Update token values for user
     user.token = token;
