@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { Salt, User } = require("../../../database/mongodb");
-const { generateToken, sendError, Errors } = require("../../../miscellaneous");
+const { sendError, Errors } = require("../../../miscellaneous");
+const uuid = require("uuid");
 
 module.exports = {
   urls:[ "api/key", "api/refresh-key", "api/key/refresh" ],
@@ -18,7 +19,7 @@ module.exports = {
     if(!user.keyEnabled) return sendError(res, Errors.apiKeyDisabled());
 
     // Create new key
-    const key = generateToken(32);
+    const key = uuid.v4();
     // Get the salt
     const salt = await Salt.findOne();
     // Hash the key
