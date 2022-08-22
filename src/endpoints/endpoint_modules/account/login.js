@@ -60,7 +60,7 @@ module.exports = {
         sendError(res, Errors.apiKeyDisabled());
       else {
         // Generate a token
-        const token = generateToken(32);
+        const token = uuid.v4();
 
         // Update token values for the user
         user.token = token;
