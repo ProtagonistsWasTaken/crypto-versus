@@ -37,7 +37,7 @@ module.exports = {
     res.setHeader("user", user.username);
     res.setHeader("expire", user.expire.getTime());
     res.setHeader("lifetime", 1000 * 60 * 5);
-    res.setHeader("keyEnabled", newUser.keyEnabled === 'true');
+    res.setHeader("keyEnabled", user.keyEnabled === 'true');
     res.setHeader("eventsEnabled", !!user.eventDomain);
 
     // Response
