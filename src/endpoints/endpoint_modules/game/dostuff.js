@@ -14,7 +14,7 @@ module.exports = {
       res.end(e.message);
     }
 
-    const user = User.findOne({ token: data.token });
+    const user = await User.findOne({ token: data.token });
 
     if(!user) return sendError(res, Errors.invalid.token());
 
