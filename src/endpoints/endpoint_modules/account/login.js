@@ -38,8 +38,6 @@ module.exports = {
       res.setHeader("user", user.username);
       res.setHeader("expire", user.expire.getTime());
       res.setHeader("lifetime", 1000 * 60 * 10);
-      res.setHeader("keyEnabled", user.keyEnabled);
-      res.setHeader("eventsEnabled", user.eventsEnabled);
 
       // Response
       res.end(token);
@@ -75,8 +73,6 @@ module.exports = {
         res.setHeader("user", user.username);
         res.setHeader("expire", user.expire.getTime());
         res.setHeader("lifetime", 1000 * 60 * 10);
-        res.setHeader("keyEnabled", !!user.keyEnabled);
-        res.setHeader("eventsEnabled", !!user.eventsEnabled);
 
         // Response
         res.end(token);
