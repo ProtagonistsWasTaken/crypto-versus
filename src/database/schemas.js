@@ -26,8 +26,13 @@ editData.setDefaults({
   keyEnabled: false
 });
 
+const webhookData = new Schema({
+  domain: StringType,
+  token: StringType
+});
+
 const connectionData = new Schema({
   token: StringType
 });
 
-module.exports = { userOptions, editData, connectionData };
+module.exports = { userOptions, editData, webhookData, connectionData };

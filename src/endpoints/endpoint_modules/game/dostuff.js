@@ -1,4 +1,4 @@
-const { connectionData, User } = require("../../../database");
+const { webhookData, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 const { Post } = require("@protagonists/request")();
 
@@ -7,7 +7,7 @@ module.exports = {
   run: async function(req, res, data) {
     // Make sure all data is valid
     try {
-      data = connectionData(data);
+      data = webhookData(data);
     }
     catch(e) {
       res.statusCode = 400;
