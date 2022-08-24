@@ -26,7 +26,7 @@ editData.setDefaults({
   keyEnabled: false
 });
 
-const connectionDate = new Schema({
+const connectionData = new Schema({
   token: StringType
 });
 
