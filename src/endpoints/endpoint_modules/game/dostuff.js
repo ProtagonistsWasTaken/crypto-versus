@@ -16,21 +16,21 @@ module.exports = {
       }
 
       User.findOne({ token: data.token }).then(user => {
-        if(!user) resolve(sendError(res, Errors.invalid.token()));
+        if(!user) return resolve(sendError(res, Errors.invalid.token()));
 
-        if(!user.eventsEnabled) return sendError(res, Errors.disabled.events());
+        if(!user.eventsEnabled) return resolve(sendError(res, Errors.disabled.events()));
 
         // Max wait time of 10 seconds
         const timeout = setTimeout(() => {
           if(!res.writableEnded)
-            return sendError(res, Errors.callback.timeout());
+            return resolve(sendError(res, Errors.callback.timeout()));
         }, 10000);
 
         Post({ host: user.eventDomain }, "Ping!").then(response => {
-          if(response.err) return sendError(res, Errors.callback.unreachable());
+          if(response.err) return resolve(sendError(res, Errors.callback.unreachable()));
 
           if(response.status.code != 200)
-            return sendError(res, Errors.callback.failure());
+            return resolve(sendError(res, Errors.callback.failure()));
 
           // Clear timeout
           clearTimeout(timeout);
