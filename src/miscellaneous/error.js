@@ -109,12 +109,17 @@ const Errors = {
     unreachable: () => { return {
       code: 400,
       message: "Callback unreachable",
-      body: "An error occured while trying to send a request to the domain for this user"
+      body: "An error occured while trying to send a request to the user's event domain"
     }},
     failure: () => { return {
       code: 424,
       message: "Callback failure",
-      body: "The domain for this user did not respond with code 200"
+      body: "The user's event domain did not respond with code 200"
+    }},
+    timeout: () => { return {
+      code: 408,
+      message: "Request Timeout",
+      body: "The user's event domain did not respond within 10 seconds"
     }}
   }
 }

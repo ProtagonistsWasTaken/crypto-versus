@@ -20,19 +20,28 @@ module.exports = {
 
     if(!user.eventsEnabled) return sendError(res, Errors.disabled.events());
 
-    const response = await Post({ host: user.eventDomain }, "Ping!");
+    // Max wait time of 10 seconds
+    const timeout = setTimeout(() => {
+      if(!res.writableEnded)
+        return sendError(res, Errors.callback.timeout());
+    }, 10000);
 
-    if(response.err) return sendError(res, Errors.callback.unreachable());
+    Post({ host: user.eventDomain }, "Ping!").then(response => {
+      if(response.err) return sendError(res, Errors.callback.unreachable());
 
-    if(response.status.code != 200)
-      return sendError(res, Errors.callback.failure());
+      if(response.status.code != 200)
+        return sendError(res, Errors.callback.failure());
 
-    // Response headers
-    res.setHeader("user", user.username);
-    res.setHeader("keyEnabled", !!user.keyEnabled);
-    res.setHeader("eventsEnabled", !!user.eventsEnabled);
+      // Clear timeout
+      clearTimeout(timeout);
 
-    res.end(`Successfully did stuff as ${user.username}`);
+      // Response headers
+      res.setHeader("user", user.username);
+      res.setHeader("keyEnabled", !!user.keyEnabled);
+      res.setHeader("eventsEnabled", !!user.eventsEnabled);
+
+      res.end(`Successfully did stuff as ${user.username}`);
+    });
   },
   method:'POST'
 }
