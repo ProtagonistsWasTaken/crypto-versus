@@ -29,6 +29,10 @@ module.exports = {
     user.key = hashedKey;
     await user.save();
 
+    // Response headers
+    res.setHeader("user", user.username);
+    res.setHeader("keyEnabled", user.keyEnabled);
+
     // Response
     res.end(key);
   },
