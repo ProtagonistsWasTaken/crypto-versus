@@ -1,6 +1,6 @@
 const { connectionData, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
-const { Post } = require("@protagonists/request")();
+const { Post } = require("@protagonists/request")(false);
 
 module.exports = {
   urls: [ "api/dostuff" ],
