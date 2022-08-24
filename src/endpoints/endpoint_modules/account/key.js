@@ -25,7 +25,7 @@ module.exports = {
     if(user.expire < Date.now()) return sendError(res, Errors.expired());
 
     // Check if user has api key disabled
-    if(!user.keyEnabled) return sendError(res, Errors.apiKeyDisabled());
+    if(!user.keyEnabled) return sendError(res, Errors.disabled.apiKey());
 
     // Create new key
     const key = uuid.v4();
@@ -41,6 +41,7 @@ module.exports = {
     // Response headers
     res.setHeader("user", user.username);
     res.setHeader("keyEnabled", user.keyEnabled);
+    res.setHeader("eventsEnabled", user.eventsEnabled);
 
     // Response
     res.end(key);
