@@ -35,7 +35,8 @@ module.exports = {
         
       // Response headers
       res.setHeader("user", newUser.username);
-      res.setHeader("expire", newUser.expire);
+      res.setHeader("expire", newUser.expire.getTime());
+      res.setHeader("lifetime", 1000 * 60 * 20);
       res.setHeader("keyEnabled", newUser.keyEnabled);
 
       // Response

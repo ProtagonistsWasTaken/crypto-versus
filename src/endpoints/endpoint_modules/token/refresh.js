@@ -26,7 +26,8 @@ module.exports = {
 
     // Response headers
     res.setHeader("user", user.username);
-    res.setHeader("expire", user.expire);
+    res.setHeader("expire", user.expire.getTime());
+    res.setHeader("lifetime", 1000 * 60 * 5);
 
     // Response
     res.end(token);
