@@ -1,11 +1,20 @@
 const bcrypt = require("bcrypt");
-const { Salt, User } = require("../../../database/mongodb");
+const { connectionData, Salt, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous");
 const uuid = require("uuid");
 
 module.exports = {
   urls:[ "api/key", "api/refresh-key", "api/key/refresh" ],
   run: async function(req, res, data) {
+    // Make sure all data is valid
+    try {
+      data = connectionData(data);
+    }
+    catch(e) {
+      res.statusCode = 400;
+      res.end(e.message);
+    }
+
     // Get the user
     const user = await User.findOne({ token: data.token });
 

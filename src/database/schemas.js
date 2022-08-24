@@ -17,7 +17,8 @@ userOptions.setDefaults({
 const editData = new Schema({
   username: StringType,
   password: StringType,
-  keyEnabled: BooleanType
+  keyEnabled: BooleanType,
+  token: StringType
 });
 editData.setDefaults({
   username: '',
@@ -25,4 +26,8 @@ editData.setDefaults({
   keyEnabled: false
 });
 
-module.exports = { userOptions, editData };
+const connectionDate = new Schema({
+  token: StringType
+});
+
+module.exports = { userOptions, editData, connectionDta };

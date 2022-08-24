@@ -5,6 +5,15 @@ const { sendError, Errors } = require("../../../miscellaneous/error");
 module.exports = {
   urls: [ "api/edit-account", "api/account/edit" ],
   run: async function(req, res, data) {
+    // Make sure all data is valid
+    try {
+      data = editData(data);
+    }
+    catch(e) {
+      res.statusCode = 400;
+      res.end(e.message);
+    }
+    
     // Get the salt
     const salt = await Salt.findOne();
     // Get the user
@@ -15,9 +24,6 @@ module.exports = {
 
     // Check if token expired
     if(user.expire < Date.now()) return sendError(res, Errors.expired());
-
-    // Make sure all data is valid
-    data = editData(data);
 
     if(data.err) return sendError(res, Errors.invalid.paramType(data.path.split('.').pop(), data.expected));
 

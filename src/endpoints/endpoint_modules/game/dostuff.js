@@ -1,10 +1,19 @@
-const { User } = require("../../../database/mongodb");
+const { connectionData, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 const { Post } = require("@protagonists/request")();
 
 module.exports = {
   urls: [ "api/dostuff" ],
   run: async function(req, res, data) {
+    // Make sure all data is valid
+    try {
+      data = connectionData(data);
+    }
+    catch(e) {
+      res.statusCode = 400;
+      res.end(e.message);
+    }
+
     const user = User.findOne({ token: data.token });
 
     if(!user) return sendError(res, Errors.invalid.token());

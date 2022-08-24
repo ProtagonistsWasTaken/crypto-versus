@@ -1,10 +1,19 @@
-const { User } = require("../../../database/mongodb");
+const { connectionData, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous");
 const uuid = require("uuid");
 
 module.exports = {
   urls: [ "api/refresh-token", "api/token/refresh", "api/refresh" ],
   run: async function(req, res, data) {
+    // Make sure all data is valid
+    try {
+      data = connectionData(data);
+    }
+    catch(e) {
+      res.statusCode = 400;
+      res.end(e.message);
+    }
+
     // Get the user
     const user = await User.findOne({ token: data.token });
 
