@@ -27,7 +27,7 @@ module.exports = {
       const newUser = new User(userOptions({
         username: data.username,
         password: password,
-        keyEnabled: data.keyEnabled === 'true',
+        keyEnabled: !!data.keyEnabled ,
         token, expire: Date.now() + 1000 * 60 * 20,
         eventDomain: data.eventDomain,
         eventsEnabled: !!data.eventDomain
