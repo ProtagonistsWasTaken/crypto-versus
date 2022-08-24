@@ -30,16 +30,16 @@ module.exports = {
     // Change the values for user
     if(data.username) user.username = data.username;
     if(data.password) user.password = await bcrypt.hash(data.password, salt.value);
-    if(data.keyEnabled !== undefined) user.keyEnabled = data.keyEnabled === 'true';
+    if(data.keyEnabled !== undefined) user.keyEnabled = !!data.keyEnabled;
     if(data.eventDomain) user.eventDomain = data.eventDomain;
-    if(data.eventsEnabled !== undefined) user.eventsEnabled = data.eventsEnabled === 'true';
+    if(data.eventsEnabled !== undefined) user.eventsEnabled = !!data.eventsEnabled;
     
     // Save changes
     await user.save();
       
     // Response headers
     res.setHeader("user", user.username);
-    res.setHeader("keyEnabled", user.keyEnabled === 'true');
+    res.setHeader("keyEnabled", !!user.keyEnabled);
     res.setHeader("eventsEnabled", !!user.eventDomain);
 
     // Response
