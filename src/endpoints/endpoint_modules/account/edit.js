@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { Salt, User, editData } = require("../../../database");
+const { Salt, User, editOptions } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
   run: async function(req, res, data) {
     // Make sure all data is valid
     try {
-      data = editData(data);
+      data = editOptions(data);
     }
     catch(e) {
       res.statusCode = 400;
