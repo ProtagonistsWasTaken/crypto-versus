@@ -1,3 +1,4 @@
+const Schema = require("@protagonists/coerce/coerce/Schema/Schema");
 const bcrypt = require("bcrypt");
 const { Salt, User, editOptions } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
@@ -28,11 +29,11 @@ module.exports = {
     if(data.err) return sendError(res, Errors.invalid.paramType(data.path.split('.').pop(), data.expected));
 
     // Change the values for user
-    if(data.username) user.username = data.username;
-    if(data.password) user.password = await bcrypt.hash(data.password, salt.value);
-    if(data.keyEnabled !== undefined) user.keyEnabled = !!data.keyEnabled;
-    if(data.eventDomain) user.eventDomain = data.eventDomain;
-    if(data.eventsEnabled !== undefined) user.eventsEnabled = !!data.eventsEnabled;
+    if(!data[Schema.isDefault].username) user.username = data.username;
+    if(!data[Schema.isDefault].password) user.password = await bcrypt.hash(data.password, salt.value);
+    if(!data[Schema.isDefault].keyEnabled) user.keyEnabled = data.keyEnabled;
+    if(!data[Schema.isDefault].eventDomain) user.eventDomain = data.eventDomain;
+    if(!data[Schema.isDefault].eventsEnabled) user.eventsEnabled = data.eventsEnabled;
     
     // Save changes
     await user.save();
