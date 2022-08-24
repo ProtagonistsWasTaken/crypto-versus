@@ -30,7 +30,7 @@ module.exports = {
         keyEnabled: data.keyEnabled === 'true',
         token, expire: Date.now() + 1000 * 60 * 20,
         eventDomain: data.eventDomain,
-        eventsEnabled: data.eventsEnabled === 'true'
+        eventsEnabled: !!data.eventDomain
       }));
       try { await newUser.save() }
       catch(e) { return sendError(res, Errors.database.duplicateUser(data.username)) }
@@ -39,8 +39,8 @@ module.exports = {
       res.setHeader("user", newUser.username);
       res.setHeader("expire", newUser.expire.getTime());
       res.setHeader("lifetime", 1000 * 60 * 20);
-      res.setHeader("keyEnabled", newUser.keyEnabled);
-      res.setHeader("eventsEnabled", user.eventsEnabled);
+      res.setHeader("keyEnabled", newUser.keyEnabled === 'true');
+      res.setHeader("eventsEnabled", !!user.eventDomain);
 
       // Response
       res.end(token);
