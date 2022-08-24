@@ -57,7 +57,7 @@ module.exports = {
         sendError(res, Errors.invalid.credentials());
       // Check if this account does not have api key enabled
       else if(!user.keyEnabled)
-        sendError(res, Errors.apiKeyDisabled());
+        sendError(res, Errors.disabled.apiKey());
       else {
         // Generate a token
         const token = uuid.v4();
