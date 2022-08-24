@@ -30,4 +30,4 @@ const connectionDate = new Schema({
   token: StringType
 });
 
-module.exports = { userOptions, editData, connectionDta };
+module.exports = { userOptions, editData, connectionData };
