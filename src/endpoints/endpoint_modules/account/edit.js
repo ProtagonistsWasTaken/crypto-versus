@@ -28,9 +28,11 @@ module.exports = {
     if(data.err) return sendError(res, Errors.invalid.paramType(data.path.split('.').pop(), data.expected));
 
     // Change the values for user
-    user.username = data.username ? data.username : user.username;
-    user.password = data.password ? await bcrypt.hash(data.password, salt.value) : user.password;
-    user.keyEnabled = data.keyEnabled !== undefined ? data.keyEnabled : user.keyEnabled;
+    if(data.username) user.username = data.username;
+    if(data.password) user.password = await bcrypt.hash(data.password, salt.value);
+    if(data.keyEnabled !== undefined) user.keyEnabled = data.keyEnabled === 'true';
+    if(data.eventDomain) user.eventDomain = data.eventDomain;
+    if(data.eventsEnabled !== undefined) user.eventsEnabled = data.eventsEnabled === 'true';
     
     // Save changes
     await user.save();
@@ -38,6 +40,7 @@ module.exports = {
     // Response headers
     res.setHeader("user", user.username);
     res.setHeader("keyEnabled", user.keyEnabled);
+    res.setHeader("eventsEnabled", user.eventsEnabled);
 
     // Response
     res.end("Account updated!");

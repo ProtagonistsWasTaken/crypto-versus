@@ -7,32 +7,35 @@ const userOptions = new Schema({
   key: StringType,
   keyEnabled: BooleanType,
   token: StringType,
-  expire: DateType
+  expire: DateType,
+  eventDomain: StringType,
+  eventsEnabled: BooleanType
 });
 userOptions.setDefaults({
   key: '',
-  keyEnabled: false
+  keyEnabled: false,
+  eventDomain: '',
+  eventsEnabled: false
 });
 
 const editData = new Schema({
   username: StringType,
   password: StringType,
   keyEnabled: BooleanType,
-  token: StringType
+  token: StringType,
+  eventDomain: StringType,
+  eventsEnabled: BooleanType
 });
 editData.setDefaults({
   username: '',
   password: '',
-  keyEnabled: false
-});
-
-const webhookData = new Schema({
-  domain: StringType,
-  token: StringType
+  keyEnabled: false,
+  eventDomain: '',
+  eventsEnabled: false
 });
 
 const connectionData = new Schema({
   token: StringType
 });
 
-module.exports = { userOptions, editData, webhookData, connectionData };
+module.exports = { userOptions, editData, connectionData };

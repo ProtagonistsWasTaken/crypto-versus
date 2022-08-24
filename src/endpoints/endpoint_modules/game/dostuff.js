@@ -1,4 +1,4 @@
-const { webhookData, User } = require("../../../database");
+const { connectionData, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 const { Post } = require("@protagonists/request")();
 
@@ -7,7 +7,7 @@ module.exports = {
   run: async function(req, res, data) {
     // Make sure all data is valid
     try {
-      data = webhookData(data);
+      data = connectionData(data);
     }
     catch(e) {
       res.statusCode = 400;
@@ -18,12 +18,19 @@ module.exports = {
 
     if(!user) return sendError(res, Errors.invalid.token());
 
-    const response = await Post({ host: data.eventDomain }, "Ping!");
+    if(!user.eventsEnabled) return sendError(res, Errors.disabled.events());
+
+    const response = await Post({ host: user.eventDomain }, "Ping!");
 
     if(response.err) return sendError(res, Errors.callback.unreachable());
 
     if(response.status.code != 200)
       return sendError(res, Errors.callback.failure());
+
+    // Response headers
+    res.setHeader("user", user.username);
+    res.setHeader("keyEnabled", user.keyEnabled);
+    res.setHeader("eventsEnabled", user.eventsEnabled);
 
     res.end(`Successfully did stuff as ${user.username}`);
   },

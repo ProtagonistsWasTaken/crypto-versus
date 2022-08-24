@@ -27,8 +27,10 @@ module.exports = {
       const newUser = new User(userOptions({
         username: data.username,
         password: password,
-        keyEnabled: data.keyEnabled,
-        token, expire: Date.now() + 1000 * 60 * 20
+        keyEnabled: data.keyEnabled === 'true',
+        token, expire: Date.now() + 1000 * 60 * 20,
+        eventDomain: data.eventDomain,
+        eventsEnabled: data.eventsEnabled === 'true'
       }));
       try { await newUser.save() }
       catch(e) { return sendError(res, Errors.database.duplicateUser(data.username)) }
@@ -38,6 +40,7 @@ module.exports = {
       res.setHeader("expire", newUser.expire.getTime());
       res.setHeader("lifetime", 1000 * 60 * 20);
       res.setHeader("keyEnabled", newUser.keyEnabled);
+      res.setHeader("eventsEnabled", user.eventsEnabled);
 
       // Response
       res.end(token);

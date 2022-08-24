@@ -38,6 +38,7 @@ module.exports = {
     res.setHeader("expire", user.expire.getTime());
     res.setHeader("lifetime", 1000 * 60 * 5);
     res.setHeader("keyEnabled", user.keyEnabled);
+    res.setHeader("eventsEnabled", user.eventsEnabled);
 
     // Response
     res.end(token);

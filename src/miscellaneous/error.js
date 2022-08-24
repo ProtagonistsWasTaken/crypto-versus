@@ -71,11 +71,18 @@ const Errors = {
       body: `The username ${name} is already taken.`
     }}
   },
-  apiKeyDisabled: () => { return {
-    code: 403,
-    message: "Api key disabled.",
-    body: `Api key is disabled on this account.`
-  }},
+  disabled: {
+    apiKey: () => { return {
+      code: 403,
+      message: "Api key disabled.",
+      body: "Api key is disabled on this account."
+    }},
+    events: () => { return {
+      code: 403,
+      message: "Events disabled",
+      body: "Events are disabled on this account"
+    }}
+  },
   login: () => { return {
     code: 400,
     message: "Login unsuccessful.",
@@ -102,12 +109,12 @@ const Errors = {
     unreachable: () => { return {
       code: 400,
       message: "Callback unreachable",
-      body: "An error occured while trying to send a request to the passed ip adress"
+      body: "An error occured while trying to send a request to the domain for this user"
     }},
     failure: () => { return {
       code: 424,
       message: "Callback failure",
-      body: "The passed ip adress did not respond with code 200"
+      body: "The domain for this user did not respond with code 200"
     }}
   }
 }
