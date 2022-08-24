@@ -41,7 +41,7 @@ module.exports = {
     // Response headers
     res.setHeader("user", user.username);
     res.setHeader("keyEnabled", !!user.keyEnabled);
-    res.setHeader("eventsEnabled", !!user.eventDomain);
+    res.setHeader("eventsEnabled", !!user.eventsEnabled);
 
     // Response
     res.end(key);
