@@ -25,9 +25,15 @@ const User = Mongoose.model("User", new Mongoose.Schema({
   },
   key: String,
   keyEnabled: Boolean,
-  token: String,
+  token: {
+    type: String,
+    value: "Empty"
+  },
   expire: Date,
-  eventDomain: String,
+  eventDomain: {
+    type: String,
+    value: "Empty"
+  },
   eventsEnabled: Boolean
 }));
 
