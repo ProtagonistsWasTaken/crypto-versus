@@ -31,6 +31,7 @@ module.exports = {
         Post({ host: user.eventDomain }, "Ping!").then(response => {
 
           console.log("Call #2");
+          console.log(response);
 
           if(response.err) return resolve(sendError(res, Errors.callback.unreachable()));
 
