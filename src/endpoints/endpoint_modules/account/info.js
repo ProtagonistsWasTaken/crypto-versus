@@ -22,14 +22,6 @@ module.exports = {
     // Check if token expired
     if(user.expire < Date.now()) return sendError(res, Errors.expired());
 
-    console.log(JSON.stringify({
-      user: user.username,
-      expire: user.expire,
-      keyEnabled: user.keyEnabled,
-      eventDomain: user.eventDomain,
-      eventsEnabled: user.eventsEnabled
-    }));
-
     // Return data
     res.end(JSON.stringify({
       user: user.username,
