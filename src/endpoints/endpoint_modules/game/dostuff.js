@@ -26,19 +26,24 @@ module.exports = {
             return resolve(sendError(res, Errors.callback.timeout()));
         }, 10000);
 
+        console.log("Call #1");
+
         Post({ host: user.eventDomain }, "Ping!").then(response => {
+
+          console.log("Call #2");
+
           if(response.err) return resolve(sendError(res, Errors.callback.unreachable()));
 
           if(response.status.code != 200)
             return resolve(sendError(res, Errors.callback.failure()));
 
-          // Clear timeout
-          clearTimeout(timeout);
-
           // Response headers
           res.setHeader("user", user.username);
 
           res.end(`Successfully did stuff as ${user.username}`);
+
+          // Clear timeout
+          resolve(clearTimeout(timeout));
         });
       });
     });
