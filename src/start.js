@@ -22,6 +22,7 @@ const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
 const middleware = require("./miscellaneous/middleware.js");
+const { url } = require("inspector");
 
 const { PORT } = process.env
 
@@ -67,7 +68,14 @@ const requestListener = function (req, res) {
     
     // loop through all routes
     for(let i = 0; i < endpoints.length; i++)
-      if(endpoints[i].urls.filter(url => req.url === "/" + url).length > 0) {  // if user's request matches a path, run the corresponding module
+      if(endpoints[i].urls.filter(url => {
+        let temp = [];
+        const names = url.split('/');
+        const reqnames = req.url.split('/');
+        for(let i = 0; i < names.length; i++)
+          temp.push(names[i] === '*' ? reqnames[i+1] : names[i]);
+        return req.url === '/' + temp.join('/');
+      }).length > 0) {  // if user's request matches a path, run the corresponding module
         if(!endpoints[i].method || req.method === endpoints[i].method)
           try {await endpoints[i].run(req, res, data);break} 
           catch (e) {
