@@ -73,7 +73,7 @@ const requestListener = function (req, res) {
         const names = url.split('/');
         const reqnames = req.url.split('/');
         for(let i = 0; i < names.length; i++)
-          temp.push(names[i] === '*' ? reqnames[i+1] : names[i]);
+          temp.push(names[i] === '*' && reqnames[i+1] !== '' ? reqnames[i+1] : names[i]);
         return req.url === '/' + temp.join('/');
       }).length > 0) {  // if user's request matches a path, run the corresponding module
         if(!endpoints[i].method || req.method === endpoints[i].method)
