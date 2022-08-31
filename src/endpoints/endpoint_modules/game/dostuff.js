@@ -19,8 +19,8 @@ module.exports = {
     // Check if user is not found
     if(!user) return sendError(res, Errors.invalid.token());
 
-    // Check if token is expired
-    if(!user.eventsEnabled) return sendError(res, Errors.disabled.events());
+    // Check if token expired
+    if(user.expire < Date.now()) return sendError(res, Errors.expired());
 
     // Make changes
     user.ping = true;
