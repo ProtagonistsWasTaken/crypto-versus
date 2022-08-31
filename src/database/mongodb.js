@@ -30,11 +30,7 @@ const User = Mongoose.model("User", new Mongoose.Schema({
     value: "Empty"
   },
   expire: Date,
-  eventDomain: {
-    type: String,
-    value: "Empty"
-  },
-  eventsEnabled: Boolean
+  ping: Boolean
 }));
 
 async function setup() {

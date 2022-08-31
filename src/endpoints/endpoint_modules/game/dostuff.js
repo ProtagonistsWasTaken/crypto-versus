@@ -3,50 +3,34 @@ const { sendError, Errors } = require("../../../miscellaneous/error");
 
 module.exports = {
   urls: [ "api/dostuff" ],
-  run: function(req, res, data) {
-    return new Promise(resolve => {
-      // Make sure all data is valid
-      try {
-        data = connectionData(data);
-      }
-      catch(e) {
-        res.statusCode = 400;
-        res.end(e.message);
-      }
+  run: async function(req, res, data) {
+    // Make sure all data is valid
+    try {
+      data = connectionData(data);
+    }
+    catch(e) {
+      res.statusCode = 400;
+      res.end(e.message);
+    }
 
-      User.findOne({ token: data.token }).then(user => {
-        if(!user) return resolve(sendError(res, Errors.invalid.token()));
+    // Get the user
+    user = await User.findOne({ token: data.token });
 
-        if(!user.eventsEnabled) return resolve(sendError(res, Errors.disabled.events()));
+    // Check if user is not found
+    if(!user) return resolve(sendError(res, Errors.invalid.token()));
 
-        // Max wait time of 10 seconds
-        const timeout = setTimeout(() => {
-          if(!res.writableEnded)
-            return resolve(sendError(res, Errors.callback.timeout()));
-        }, 10000);
+    // Check if token is expired
+    if(!user.eventsEnabled) return resolve(sendError(res, Errors.disabled.events()));
 
-        console.log("Call #1");
+    // Make changes
+    user.ping = true;
+    await user.save();
 
-        Post({ host: user.eventDomain }, "Ping!").then(response => {
+    // Response headers
+    res.setHeader("user", user.username);
 
-          console.log("Call #2");
-          console.log(response);
-
-          if(response.err) return resolve(sendError(res, Errors.callback.unreachable()));
-
-          if(response.status.code != 200)
-            return resolve(sendError(res, Errors.callback.failure()));
-
-          // Response headers
-          res.setHeader("user", user.username);
-
-          res.end(`Successfully did stuff as ${user.username}`);
-
-          // Clear timeout
-          resolve(clearTimeout(timeout));
-        });
-      });
-    });
+    // Response
+    res.end(`Successfully did stuff as ${user.username}`);
   },
   method:'POST'
 }

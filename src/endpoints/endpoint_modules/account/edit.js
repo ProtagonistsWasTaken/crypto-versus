@@ -32,8 +32,6 @@ module.exports = {
     if(!data[Schema.isDefault].username) user.username = data.username;
     if(!data[Schema.isDefault].password) user.password = await bcrypt.hash(data.password, salt.value);
     if(!data[Schema.isDefault].keyEnabled) user.keyEnabled = data.keyEnabled;
-    if(!data[Schema.isDefault].eventDomain) user.eventDomain = data.eventDomain;
-    if(!data[Schema.isDefault].eventsEnabled) user.eventsEnabled = data.eventsEnabled;
     
     // Save changes
     await user.save();
