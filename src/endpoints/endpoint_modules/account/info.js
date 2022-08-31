@@ -25,8 +25,8 @@ module.exports = {
     // Return data
     res.end(JSON.stringify({
       user: user.username,
-      expire: user.expire.getTime(),
       keyEnabled: user.keyEnabled,
+      expire: user.expire.getTime(),
       lifetime: user.expire - Date.now()
     }));
   },
