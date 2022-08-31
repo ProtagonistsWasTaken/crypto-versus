@@ -120,6 +120,11 @@ const Errors = {
       code: 408,
       message: "Request Timeout",
       body: "The user's event domain did not respond within 10 seconds"
+    }},
+    inexistantTarget: () => { return {
+      code: 403,
+      message: "Inexistant target",
+      body: "Target user was not valid"
     }}
   }
 }

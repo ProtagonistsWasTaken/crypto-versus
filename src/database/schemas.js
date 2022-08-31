@@ -38,4 +38,12 @@ const connectionData = new Schema({
   token: StringType
 });
 
-module.exports = { userOptions, editOptions, connectionData };
+const callbackData = new Schema({
+  token: StringType,
+  target: StringType
+});
+callbackData.setDefaults({
+  target: ''
+});
+
+module.exports = { userOptions, editOptions, connectionData, callbackData };
