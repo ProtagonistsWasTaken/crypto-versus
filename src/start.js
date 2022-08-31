@@ -63,8 +63,6 @@ const requestListener = function (req, res) {
         return;
       }
     }
-
-    console.log(`Requested '${req.url}' with method '${req.method}'\ndata: ${JSON.stringify(data)}`);
     
     // loop through all routes
     for(let i = 0; i < endpoints.length; i++)
