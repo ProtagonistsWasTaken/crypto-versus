@@ -28,9 +28,7 @@ module.exports = {
         username: data.username,
         password: password,
         keyEnabled: !!data.keyEnabled ,
-        token, expire: Date.now() + 1000 * 60 * 20,
-        eventDomain: data.eventDomain,
-        eventsEnabled: !!data.eventDomain
+        token, expire: Date.now() + 1000 * 60 * 20
       }));
       try { await newUser.save() }
       catch(e) { return sendError(res, Errors.database.duplicateUser(data.username)) }
