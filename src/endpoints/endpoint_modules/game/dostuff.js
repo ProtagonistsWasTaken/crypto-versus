@@ -17,10 +17,10 @@ module.exports = {
     user = await User.findOne({ token: data.token });
 
     // Check if user is not found
-    if(!user) return resolve(sendError(res, Errors.invalid.token()));
+    if(!user) return sendError(res, Errors.invalid.token());
 
     // Check if token is expired
-    if(!user.eventsEnabled) return resolve(sendError(res, Errors.disabled.events()));
+    if(!user.eventsEnabled) return sendError(res, Errors.disabled.events());
 
     // Make changes
     user.ping = true;
