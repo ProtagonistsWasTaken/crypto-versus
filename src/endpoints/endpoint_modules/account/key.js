@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { connectionData, Salt, User } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous");
 const uuid = require("uuid");

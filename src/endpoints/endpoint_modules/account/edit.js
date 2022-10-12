@@ -1,5 +1,5 @@
 const Schema = require("@protagonists/coerce/coerce/Schema/Schema");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { Salt, User, editOptions } = require("../../../database");
 const { sendError, Errors } = require("../../../miscellaneous/error");
 

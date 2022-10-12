@@ -1,5 +1,5 @@
 const Mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 Mongoose.connect(process.env["DB_URL"]).then( function(){
   console.log("Connected to DB")
 });

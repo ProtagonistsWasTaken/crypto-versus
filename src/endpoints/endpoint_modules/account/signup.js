@@ -1,5 +1,5 @@
 // this route handles all /signup requests
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { Salt, User, userOptions } = require("../../../database");
 const { validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
 const uuid = require("uuid");

@@ -1,5 +1,5 @@
 // this route handles all /login requests
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { Salt, User } = require("../../../database/mongodb");
 const { validateUserInfo, sendError, Errors } = require("../../../miscellaneous");
 const uuid = require("uuid");
