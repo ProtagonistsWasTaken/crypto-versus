@@ -16,7 +16,7 @@ const User = Mongoose.model("User", new Mongoose.Schema({
   username: {
     type: String, // ensure the username is a String
     required: [true,"username is required"], // username is required.
-    unique:true // ensure the user inputs a unique username 
+    unique: true // ensure the user inputs a unique username
   },
   password: {
     type: String, // ensure the password is a String. this should be hashed by bcrypt
