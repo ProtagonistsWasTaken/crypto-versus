@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Crypto Versus | login"/>
+    <meta property="og:description" content="Log into your crypto versus account"/>
+    <meta property="og:url" content="https://cry-vs.herokuapp.com/"/>
+    <meta property="og:image" content="full thumbnail path"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="style.css" type="text/css" rel="stylesheet">
+    <title>Crypto Versus | login</title>
+  </head>
+  <body>
+    <form onsubmit="return login()">
+      <h1>Login</h1>
+      <p id="status_message"></p>
+      <input id="username" type="username" placeholder="username" maxlength="30" size="30" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~!?&$#]+" autofocus required/><br/>
+      <input id="password" maxlength="30" size="30" type="password" placeholder="password" pattern="^[a-zA-Z0-9\-_.\+<>\(\){}\[\]\|:;~!?&$#]+" required/><br/>
+      <input id="submit" type="submit"/>
+      <p>New here?</p><a href="/signup" id="link">Sign up</a>
+    </form>
+    <script src="scripts/login.js"></script>
+  </body>
+</html>

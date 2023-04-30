@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# IDE generated files (configs, snippets, etc)
+.idea/
+*.breakpoints
+/docs/_build/
+
+# Environnement file
+
+.env

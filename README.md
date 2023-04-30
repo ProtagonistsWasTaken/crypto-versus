@@ -1,6 +1,6 @@
 # Crypto Versus
 
-### A Multiplayer Versus Hacking Simulation
+### A Multiplayer PvP Hacking Simulation
 
 Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/1812820/Bitburner/)
 
@@ -8,8 +8,8 @@ Inspired by the Steam game [Bitburner](https://store.steampowered.com/app/181282
 
 ## Table of content
 
-Don't wanna scroll through all this?  
-Then simply click on one of the links!
+Don't want to scroll through all this?  
+Then simply click on one of these links!
 
 * [Routes](#routes)
     * [/signup](#api-v0-signup)
@@ -634,4 +634,4 @@ you can contact these contributors
 - [Pywon](https://github.com/ThePywon)
 - [A_W1534 / addikted](https://github.com/AW1534)
 
-Here is the [Code of Conduct](./CODE_OF_CONDUCT.md) for this community!
+Here is the [Code of Conduct](CODE_OF_CONDUCT.md) for this community!

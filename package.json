@@ -2,13 +2,14 @@
   "name": "cryptoversus",
   "version": "1.0.0",
   "description": "## A Multiplayer Versus Hacking Simulation",
-  "main": "start.js",
+  "main": "src/start.js",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "@protagonists/coerce": "^1.0.6",
+    "@protagonists/coerce-basics": "^1.0.0",
+    "bcryptjs": "^2.4.3",
     "ejs": "^3.1.6",
-    "glob": "^7.2.0",
-    "home": "^2.0.0",
-    "mongoose": "^6.1.5"
+    "mongoose": "^6.1.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
@@ -19,8 +20,8 @@
   },
   "scripts": {
     "test": "mocha test.js",
-    "dev": "nodemon start.js",
-    "start": "node start.js"
+    "dev": "nodemon src/start.js",
+    "start": "node src/start.js"
   },
   "repository": {
     "type": "git",
