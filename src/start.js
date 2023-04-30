@@ -94,7 +94,7 @@ const requestListener = function (req, res) {
 
     //endregion
 
-    // the request isnt handled, try to find a page in the public folder
+    // the request isn't handled, try to find a page in the public folder
     if(!res.finished) {
       // try to send file with the same name as the request
       if(fs.existsSync(path.join(__dirname, "public", req.url)))
