@@ -56,6 +56,7 @@ form p {
 #status_message {
     border-radius:5px;
     overflow:hidden;
+    padding:5px;
 }
 
 #link {
